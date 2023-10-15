@@ -1,9 +1,9 @@
 import {BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar"
+import Navbar from "./Navbar/Navbar"
 import StartPage from "./pages/StartPage/StartPage";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-
+import { LanguageProvider } from './context/LanguageContext';
 function App() {
 
   const theme = createTheme({
@@ -37,6 +37,7 @@ function App() {
 
   
   return (
+    <LanguageProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline /> 
       <BrowserRouter>
@@ -51,6 +52,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

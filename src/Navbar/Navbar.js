@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import {Select, ListItemIcon, ListItemText, Icon, Container} from "@mui/material";
+
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
@@ -13,17 +13,16 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Outlet, Link, NavLink } from "react-router-dom";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Outlet } from "react-router-dom";
 import CarRentalIcon from "@mui/icons-material/CarRental";
-
 
 import { useTheme } from "@mui/material/styles";
 
-import UkraineFlag from "./flags/UkraineFlag";
-import GreatBritainFlag from "./flags/GreatBritainFlag";
+
+import SettingsDrawer from "./components/SettingsDrawer";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -88,6 +87,19 @@ export default function Navbar() {
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const [settingsOpened, setSettingsOpened] = React.useState(false);
+
+  const handleSettingsOpen = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+
+    setSettingsOpened(open);
   };
 
   const StyledMenu = styled((props) => <Menu elevation={0} {...props} />)(
@@ -186,14 +198,19 @@ export default function Navbar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem onClick={handleSettingsOpen(true)}>
+        <IconButton
+          size="large"
+          aria-label="settings"
+          color={theme.palette.common.white}
+        >
+          <SettingsIcon />
+        </IconButton>
+        <p>Settings</p>
+      </MenuItem>
     </StyledMenu>
   );
 
-  const [lang, setLang] = React.useState("uk");
-
-  const handleChange = (event) => {
-    setLang(event.target.value);
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -269,6 +286,17 @@ export default function Navbar() {
             >
               <AccountCircle />
             </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="settings"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleSettingsOpen(true)}
+              color="inherit"
+            >
+              <SettingsIcon />
+            </IconButton>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -282,35 +310,10 @@ export default function Navbar() {
               <MoreIcon />
             </IconButton>
           </Box>
-          <Select  value={lang} onChange={handleChange} variant="filled" sx={{marginRight: 1, marginLeft: 1, height:64, paddingRight: 0, paddingLeft:0, backgroundColor: theme.palette.background.default,
-          display: 'flex', justifyContent: 'center', flexDirection:'row'}}
-          inputProps={{
-            MenuProps: {
-              PaperProps: {
-                sx: {
-                   backgroundColor: theme.palette.background.default
-                }
-              }
-            }
-          }}>
-            <MenuItem value="uk" sx={{paddingLeft: 0, paddingRight:0, backgroundColor: theme.palette.background.default}} >
-              <Container sx={{display: 'flex', flexDirection:'row'}}>
-              <ListItemIcon sx={{width: 36, height: 36, minWidth: 40}}>
-                <UkraineFlag/>
-              </ListItemIcon>
-              <ListItemText primary="UK" sx={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}/>
-              </Container>
-            </MenuItem>
-
-            <MenuItem value="en" sx={{paddingLeft: 0, paddingRight:0, backgroundColor: theme.palette.background.default}} >
-              <Container sx={{display: 'flex', flexDirection:'row'}}>
-              <ListItemIcon sx={{width: 36, height: 36, minWidth: 40}}>
-                <GreatBritainFlag/>
-              </ListItemIcon>
-              <ListItemText primary="EN" sx={{alignItems: 'center', display: 'flex', justifyContent: 'center'}}/>
-              </Container>
-            </MenuItem>
-          </Select>
+          
+          <SettingsDrawer 
+            open={settingsOpened}
+            handleSettingsOpen={handleSettingsOpen}/>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
