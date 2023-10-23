@@ -4,6 +4,8 @@ import StartPage from "./pages/StartPage/StartPage";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { LanguageProvider } from './context/LanguageContext';
+
+import GaragePage from "./pages/GaragePage/GaragePage";
 function App() {
 
   const theme = createTheme({
@@ -44,8 +46,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<StartPage />} />
-
-
+            
+            <Route path="garage" element={<GaragePage />} />    
 
             
           </Route>
