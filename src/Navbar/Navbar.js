@@ -18,7 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Outlet } from "react-router-dom";
 import CarRentalIcon from "@mui/icons-material/CarRental";
-
+import GarageIcon from '@mui/icons-material/Garage';
 import { useTheme } from "@mui/material/styles";
 
 
@@ -266,6 +266,11 @@ export default function Navbar() {
             </Search>
           </Box>
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Link to="/garage"> {/* Додайте цю стрічку */}
+              <IconButton size="large" color="inherit">
+                <GarageIcon />
+              </IconButton>
+            </Link>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
