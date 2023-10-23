@@ -16,11 +16,10 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 import CarRentalIcon from "@mui/icons-material/CarRental";
 import GarageIcon from '@mui/icons-material/Garage';
 import { useTheme } from "@mui/material/styles";
-
 
 import SettingsDrawer from "./components/SettingsDrawer";
 

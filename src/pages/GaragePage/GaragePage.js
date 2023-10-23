@@ -17,13 +17,13 @@ import imageServiceHistory from "./image/serviceHistory.jpg";
 import imageCarRegister from "./image/CarRegister.png";
 import imageCarKey from "./image/CarKey.png";
 import imageGarage from "./image/garage.png";
-import { useTheme } from "@mui/material/styles";
-import { makeStyles } from '@mui/styles';
 
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+
+import { useTheme } from "@mui/material/styles";
 
 function a11yProps(index) {
   return {
