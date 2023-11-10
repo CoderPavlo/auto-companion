@@ -14,7 +14,7 @@ function App() {
         main: '#007BFF', // Синій (Primary Color)
       },
       secondary: {
-        main: '#CCCCCC', // Сріблястий (Secondary Color)
+        main: '#959595', // Сріблястий (Secondary Color)
       },
       background: {
         default: '#333333', // Темно-сірий (Background Color)
@@ -48,7 +48,9 @@ function App() {
             <Route index element={<StartPage />} />
             
             <Route path="garage" element={<GaragePage />} />    
-
+            <Route path="calendar" element={<div />} />  
+            <Route path="bugs" element={<div />} />  
+            <Route path="promotions" element={<div />} />  
             
           </Route>
         </Routes>
