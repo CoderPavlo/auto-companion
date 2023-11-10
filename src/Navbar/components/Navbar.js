@@ -20,6 +20,7 @@ import DrawerHeader from "./components/DrawerHeader";
 import Button from '@mui/material/Button';
 
 
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from '../context/LanguageContext';
 
 const Search = styled("div")(({ theme }) => ({
@@ -62,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar() {
+export default function Navbar({logged}) {
   const theme = useTheme();
 
   const { language, setLanguage } = useLanguage();
@@ -85,7 +86,6 @@ export default function Navbar() {
     setOpenNavigateDrawer(!openNavigateDrawer);
   }
 
-  const [logged, setLogged] = React.useState(false);
   const content = {
     uk: {
       login: 'Ввійти',
@@ -96,6 +96,8 @@ export default function Navbar() {
       vinCode: 'Vin-code...'
     }
   }
+  
+  const navigate = useNavigate()
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -122,7 +124,7 @@ export default function Navbar() {
           <Box >
             {
               !logged &&
-              <Button variant="outlined" startIcon={<LoginIcon />} onClick={()=>setLogged(true)}
+              <Button variant="outlined" startIcon={<LoginIcon />} onClick={()=>navigate('/signIn')}
               sx={{
                fontSize: {
                 xs: 0,

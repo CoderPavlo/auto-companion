@@ -1,13 +1,19 @@
+import React from 'react'
 import {BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./Navbar/Navbar"
 import StartPage from "./pages/StartPage/StartPage";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { LanguageProvider } from './context/LanguageContext';
+import { useLanguage } from './context/LanguageContext';
 
 import GaragePage from "./pages/GaragePage/GaragePage";
+import SignIn from "./pages/SignIn/SignIn";
 function App() {
 
+  
+  const { language, setLanguage } = useLanguage();
+
+  const [logged, setLogged] = React.useState(false);
   const theme = createTheme({
     palette: {
       primary: {
@@ -39,12 +45,11 @@ function App() {
 
   
   return (
-    <LanguageProvider>
     <ThemeProvider theme={theme}>
       <CssBaseline /> 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navbar />}>
+          <Route path="/" element={<Navbar logged={logged}/>}>
             <Route index element={<StartPage />} />
             
             <Route path="garage" element={<GaragePage />} />    
@@ -53,10 +58,11 @@ function App() {
             <Route path="promotions" element={<div />} />  
             
           </Route>
+          
+          <Route path="/signIn" element={<SignIn theme={theme} language={language} setLogged={setLogged}/>} />  
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
-    </LanguageProvider>
   );
 }
 

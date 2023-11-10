@@ -27,7 +27,7 @@ import { useLanguage } from '../../context/LanguageContext';
 
 import { useNavigate } from "react-router-dom";
 
-import avatar from "./avatar.png"
+import avatar from "../../images/avatar.png"
 import DrawerHeader from './DrawerHeader';
 
 const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
