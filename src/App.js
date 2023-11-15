@@ -7,7 +7,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { useLanguage } from './context/LanguageContext';
 
 import GaragePage from "./pages/GaragePage/GaragePage";
-import SignIn from "./pages/SignIn/SignIn";
+import SignInPage from './pages/SignInPage/SignInPage';
+import SignUpPage from './pages/SignUpPage/SignUpPage';
 function App() {
 
   
@@ -59,7 +60,8 @@ function App() {
             
           </Route>
           
-          <Route path="/signIn" element={<SignIn theme={theme} language={language} setLogged={setLogged}/>} />  
+          <Route path="/signIn" element={<SignInPage theme={theme} language={language} setLogged={setLogged}/>} />  
+          <Route path="/signUp" element={<SignUpPage theme={theme} language={language} setLogged={setLogged}/>} />  
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
