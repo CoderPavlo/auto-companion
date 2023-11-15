@@ -14,7 +14,7 @@ import avatar from '../../images/avatar.png'
 
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
-export default function SignIn({ theme, language, setLogged }) {
+export default function SignInPage({ theme, language, setLogged }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -137,7 +137,7 @@ export default function SignIn({ theme, language, setLogged }) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signUp" variant="body2">
                   {content[language].dontHaveAc}
                 </Link>
               </Grid>
