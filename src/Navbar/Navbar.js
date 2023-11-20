@@ -63,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Navbar({logged}) {
+export default function Navbar({ logged }) {
   const theme = useTheme();
 
   const { language, setLanguage } = useLanguage();
@@ -97,7 +97,7 @@ export default function Navbar({logged}) {
     }
   }
 
-  
+
   const navigate = useNavigate();
 
   return (
@@ -125,13 +125,13 @@ export default function Navbar({logged}) {
           <Box >
             {
               !logged &&
-              <Button variant="outlined" startIcon={<LoginIcon />} onClick={()=>navigate('/signIn')}
-              sx={{
-               fontSize: {
-                xs: 0,
-                md: '0.875rem'
-               }
-              }}
+              <Button variant="outlined" startIcon={<LoginIcon />} onClick={() => navigate('/signIn')}
+                sx={{
+                  fontSize: {
+                    xs: 0,
+                    md: '0.875rem'
+                  }
+                }}
               >
                 {content[language].login}
               </Button>
@@ -167,8 +167,12 @@ export default function Navbar({logged}) {
         </DrawerHeader>
       </AppBar>
 
-      <NavigateDrawer open={openNavigateDrawer} handleDrawerOpen={handleNavigateDrawerOpen} logged={logged}/>
-      <Box sx={{ marginLeft: { xs: '0px', sm: '65px' } }}>
+      <NavigateDrawer open={openNavigateDrawer} handleDrawerOpen={handleNavigateDrawerOpen} logged={logged} />
+      <Box sx={{
+        marginLeft: { xs: '0px', sm: '65px' },
+        marginTop: 10,
+        marginBottom: 2,
+      }}>
         <Outlet />
       </Box>
     </Box>
