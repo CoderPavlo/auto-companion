@@ -49,8 +49,6 @@ export default function StartPage() {
       maxWidth="100%"
       sx={{
         background: theme.palette.background.default,
-        marginTop: 8,
-        marginBottom: 2,
       }}
     >
       <Card sx={{ background: theme.palette.background.default }}>
