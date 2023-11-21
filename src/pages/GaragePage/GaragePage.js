@@ -1,8 +1,7 @@
 import * as React from "react";
 import {
-    Container, Card, Grid, Typography, CardContent, CardActions, CardMedia, Tabs, Tab, Select, MenuItem
+    Container, Card, Grid, Typography, CardContent, CardActions, CardMedia, Select, MenuItem
   } from '@mui/material';
-import TabPanel from "./components/TabPanel";
 import imageUrl from "./image/garage.png";
 import imageS from "./image/tesla s.jpg";
 import imageX from "./image/tesla x.jpg";
@@ -10,27 +9,8 @@ import imageX5 from "./image/BMW X5.jpg";
 import imageM5 from "./image/BMW M5.jpg";
 import imageM3 from "./image/BMW M3.jpg";
 import imageVW from "./image/VW PASSAT.png";
-import imageLargeDatabase from "./image/largeDatabase.jpg";
-import imageCarInstruction from "./image/CarInstruction.jpg";
-import imagePromotion from "./image/promotion.jpg";
-import imageServiceHistory from "./image/serviceHistory.jpg";
-import imageCarRegister from "./image/CarRegister.png";
-import imageCarKey from "./image/CarKey.png";
-import imageGarage from "./image/garage.png";
-
-import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import ConstructionIcon from "@mui/icons-material/Construction";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-
 import { useTheme } from "@mui/material/styles";
 
-function a11yProps(index) {
-  return {
-    id: `tab-${index}`,
-    "aria-controls": `tabpanel-${index}`,
-  };
-}
 
 
 export default function GaragePage() {

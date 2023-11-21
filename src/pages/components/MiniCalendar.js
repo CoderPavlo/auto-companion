@@ -15,12 +15,14 @@ import car4 from "./images/car4.png"
 import car5 from "./images/car5.png"
 import { eventTypes } from './eventTypes';
 
+import en from 'dayjs/locale/en-gb';
+import uk from 'dayjs/locale/uk';
 import { ukUA } from '@mui/x-date-pickers/locales';
 function fakeFetch(date, { signal }) {
   return new Promise((resolve, reject) => {
     const timeout = setTimeout(() => {
-      const currentMonth = date.month();
-      const currentYear = date.year();
+      //const currentMonth = date.month();
+      //const currentYear = date.year();
       //отримуємо події з бази даних за місяцем
       const events = [
         {
@@ -118,7 +120,7 @@ function ServerDay(props) {
       }}
         key={props.day.toString()}
         overlap="circular"
-        badgeContent={isSelected ? <img src={highlightedDays[index].carImage} style={{width: '20px'}}/> : undefined}
+        badgeContent={isSelected ? <img src={highlightedDays[index].carImage} alt='car' style={{width: '20px'}}/> : undefined}
       >
         <StyledBadge
           key={props.day.toString()}
@@ -178,7 +180,7 @@ const MiniCalendar = ({ theme, language }) => {
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language==='uk'? 'uk' : 'en-gb'}
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language==='uk'? uk : en}
     localeText={language === 'uk' ? ukUA.components.MuiLocalizationProvider.defaultProps.localeText : undefined}
      >
       <DateCalendar
@@ -188,6 +190,9 @@ const MiniCalendar = ({ theme, language }) => {
         renderLoading={() => <DayCalendarSkeleton />}
         dayOfWeekFormatter={dayOfWeekFormatter}
         sx={{
+          "& .css-a1a8en-MuiDateCalendar-root": {
+            width: '50%',
+          },
           "& .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel": {
             color: theme.palette.secondary.main,
           },

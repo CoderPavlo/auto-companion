@@ -10,6 +10,7 @@ import GaragePage from "./pages/GaragePage/GaragePage";
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import CalendarPage from './pages/CalendarPage/CalendarPage';
+import Garage from './pages/GaragePage/Garage';
 function App() {
 
   
@@ -54,7 +55,7 @@ function App() {
           <Route path="/" element={<Navbar logged={logged}/>}>
             <Route index element={<StartPage />} />
             
-            <Route path="garage" element={<GaragePage />} />    
+            <Route path="garage" element={<Garage theme={theme} language={language}/>} />    
             <Route path="calendar" element={<CalendarPage theme={theme} language={language}/>} />  
             <Route path="bugs" element={<div />} />  
             <Route path="promotions" element={<div />} />  
