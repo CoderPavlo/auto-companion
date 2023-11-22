@@ -102,7 +102,7 @@ export default function Navbar({ logged }) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" style={{ background: "#333333", zIndex: 1 }} >
+      <AppBar position="fixed" style={{ background: "#333333", zIndex: 200 }} >
         <DrawerHeader click={handleNavigateDrawerOpen} variant='relative'>
           <Box
             sx={{

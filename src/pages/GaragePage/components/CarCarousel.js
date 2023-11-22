@@ -80,28 +80,45 @@ const CarCarousel = ({ theme, images, selectedCar, setSelectedCar }) => {
   }, [isXSmallScreen, isSmallScreen, isMediumScreen, isLargeScreen, isXLargeScreen]);
 
 
-  const SlickArrowLeft = ({ currentSlide, onClick }) => (
-    <IconButton
-      onClick={onClick}
-      sx={{
-        visibility: currentSlide === 0 ? 'hidden' : 'visible',
-      }}
-      color='primary'>
-      <ArrowBackIos />
-    </IconButton>
-  );
+  const SlickArrowLeft = ({ currentSlide, onClick }) => {
+    const handleLeftArrowClick = () => {
+      if(isXSmallScreen)
+        setSelectedCar(currentSlide-1);
+      onClick();
+    };
+  
+    return (
+      <IconButton
+        onClick={handleLeftArrowClick} // Замість onClick, викликаємо нову функцію handleLeftArrowClick
+        sx={{
+          visibility: currentSlide === 0 ? 'hidden' : 'visible',
+        }}
+        color='primary'>
+        <ArrowBackIos />
+      </IconButton>
+    );
+  };
 
-  const SlickArrowRight = ({ currentSlide, slideCount, onClick }) => (
-    <IconButton
-      onClick={onClick}
-      sx={{
-        visibility: currentSlide >= slideCount - slides.toShow ? 'hidden' : 'visible',
-      }}
-      color='primary'
-    >
-      <ArrowForwardIos />
-    </IconButton>
-  );
+  const SlickArrowRight = ({ currentSlide, slideCount, onClick }) => {
+    const handleRightArrowClick = () => {
+      if(isXSmallScreen)
+        setSelectedCar(currentSlide+1);
+      onClick();
+    };
+  
+    return (
+      <IconButton
+        onClick={handleRightArrowClick} // Замість onClick, викликаємо нову функцію handleRightArrowClick
+        sx={{
+          visibility: currentSlide >= slideCount - slides.toShow ? 'hidden' : 'visible',
+        }}
+        color='primary'
+      >
+        <ArrowForwardIos />
+      </IconButton>
+    );
+  };
+  
 
   const settings = {
     arrows: true,
@@ -128,7 +145,7 @@ const CarCarousel = ({ theme, images, selectedCar, setSelectedCar }) => {
             key={image.title}
             sx={{
               width: '90%',
-              height: { xs: '300px', sm: '200px' },
+              height: { xs: '250px', sm: '200px' },
               display: 'flex',
               alignItems: 'end',
             }}
