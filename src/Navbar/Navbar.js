@@ -170,7 +170,7 @@ export default function Navbar({ logged }) {
       <NavigateDrawer open={openNavigateDrawer} handleDrawerOpen={handleNavigateDrawerOpen} logged={logged} />
       <Box sx={{
         marginLeft: { xs: '0px', sm: '65px' },
-        marginTop: 10,
+        marginTop: 9,
         marginBottom: 2,
       }}>
         <Outlet />

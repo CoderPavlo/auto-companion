@@ -67,9 +67,9 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
 
   }
 
-  const ListItemStyled = ({ key, click, style, primary, children }) => {
+  const ListItemStyled = ({ click, style, primary, children }) => {
     return (
-      <ListItem key={key} disablePadding sx={{ height: '48px' }}>
+      <ListItem key={primary} disablePadding sx={{ height: '48px' }}>
         <ListItemButton onClick={click}>
           <ListItemIcon style={style}>
             {children}
