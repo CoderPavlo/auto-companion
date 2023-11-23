@@ -10,6 +10,7 @@ import GaragePage from "./pages/GaragePage/GaragePage";
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import CalendarPage from './pages/CalendarPage/CalendarPage';
+import HomePage from './pages/HomePage/HomePage';
 function App() {
 
   
@@ -58,7 +59,7 @@ function App() {
             <Route path="calendar" element={<CalendarPage theme={theme} language={language}/>} />  
             <Route path="bugs" element={<div />} />  
             <Route path="promotions" element={<div />} />  
-            
+            <Route path="home" element={<HomePage theme={theme} language={language}/>} />
           </Route>
           
           <Route path="/signIn" element={<SignInPage theme={theme} language={language} setLogged={setLogged}/>} />  

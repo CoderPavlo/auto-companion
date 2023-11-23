@@ -103,7 +103,7 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       {
         logged &&
       <List>
-        <ListItemStyled key={0} click={() => { }} primary={userData.name}>
+        <ListItemStyled key={0} click={() => navigate('/home')} primary={userData.name}>
           <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
         </ListItemStyled>
 
