@@ -174,7 +174,6 @@ const GaragePage = ({ theme, language }) => {
     for (const car of cars) {
       const makeName = getPropertyValue(car.json, properties[0]);
 
-      // Check if makeName is not already in the array
       if (!makes0.includes(makeName)) {
         makes0.push(makeName);
       }

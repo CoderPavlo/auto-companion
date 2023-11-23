@@ -76,7 +76,7 @@ const initialValue = dayjs();
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     right: 8,
-    top: 5,
+    top: 10,
   },
 }));
 
@@ -87,7 +87,7 @@ function getIconByType(type) {
     if (event.type === type) {
       foundIcon = React.cloneElement(event.icon, {
         style: {
-          width: '10px',
+          width: '18px',
           color: event.color,
         }
       });;
@@ -120,7 +120,7 @@ function ServerDay(props) {
       }}
         key={props.day.toString()}
         overlap="circular"
-        badgeContent={isSelected ? <img src={highlightedDays[index].carImage} alt='car' style={{width: '20px'}}/> : undefined}
+        badgeContent={isSelected ? <img src={highlightedDays[index].carImage} alt='car' style={{width: '25px'}}/> : undefined}
       >
         <StyledBadge
           key={props.day.toString()}
@@ -187,11 +187,33 @@ const MiniCalendar = ({ theme, language }) => {
         defaultValue={initialValue}
         loading={isLoading}
         onMonthChange={handleMonthChange}
-        renderLoading={() => <DayCalendarSkeleton />}
+        renderLoading={() => <DayCalendarSkeleton sx={{'& .MuiSkeleton-root':{width: '50px !important', height: '50px !important'}}} />}
         dayOfWeekFormatter={dayOfWeekFormatter}
         sx={{
-          "& .css-a1a8en-MuiDateCalendar-root": {
-            width: '50%',
+          width: '400px', // Наприклад, 300 пікселів
+          height: '430px',
+          maxHeight: '430px',
+          '& .MuiPickersSlideTransition-root': {
+            height: '320px',
+          },
+          '& .MuiSvgIcon-root': {
+            width: '35px',
+            height: '35px'
+          },
+          '& .MuiPickersCalendarHeader-label':{
+
+            fontSize: '1.25rem',
+          },
+          '& .MuiTypography-root':{
+            
+            fontSize: '1rem',
+            width: '50px',
+            height: '55px',
+          },
+          '& .MuiPickersDay-root': {
+            fontSize: '1.1rem',
+            width: '50px',
+            height: '50px'
           },
           "& .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel": {
             color: theme.palette.secondary.main,
