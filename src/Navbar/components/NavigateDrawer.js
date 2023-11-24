@@ -35,7 +35,6 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
   const { language, setLanguage } = useLanguage();
 
   const navigate = useNavigate()
-  const [pageSelected, setPageSelected] = React.useState(0);
   const drawerWidth = 280;
   const miniDrawerWidth = 65;
 
@@ -45,11 +44,11 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
     en: ['Home', 'Garage', 'Calendar', 'Bugs', 'Promotions'],
   };
   const links = [
-    '/',
-    '/garage',
-    '/calendar',
-    '/bugs',
-    '/promotions'
+    '',
+    'garage',
+    'calendar',
+    'bugs',
+    'promotions'
   ]
 
   const userData = {
@@ -79,21 +78,24 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       </ListItem>
     )
   }
+  const firstPathSegment = window.location.href.split('/')[3];
 
   const drawer = (
     <div>
       {open &&
-        <DrawerHeader click={handleDrawerOpen}/>
+        <DrawerHeader click={handleDrawerOpen} />
       }
       <Divider />
       <List>
-        {icons.map((icon, index) => (
-          <ListItemStyled key={index} click={() => { setPageSelected(index); navigate(links[index]) }}
-            style={{ color: pageSelected === index ? theme.palette.primary.main : theme.palette.secondary.main }}
-            primary={labels[language][index]}>
-            {icon}
-          </ListItemStyled>
-        ))}
+        {
+          
+          icons.map((icon, index) => (
+            <ListItemStyled key={index} click={() => navigate('/'+links[index])}
+              style={{ color: links[index]=== firstPathSegment ? theme.palette.primary.main : theme.palette.secondary.main }}
+              primary={labels[language][index]}>
+              {icon}
+            </ListItemStyled>
+          ))}
       </List>
       <Divider />
       <Box height="260px">
@@ -102,18 +104,18 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       <Divider />
       {
         logged &&
-      <List>
-        <ListItemStyled key={0} click={() => { }} primary={userData.name}>
-          <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
-        </ListItemStyled>
+        <List>
+          <ListItemStyled key={0} click={() => { }} primary={userData.name}>
+            <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
+          </ListItemStyled>
 
-        <ListItemStyled key={1} click={() => { }}
-          style={{ color: theme.palette.error.main }}
-          primary={content[language].exit}>
-          <Logout />
-        </ListItemStyled>
-      </List>
-}
+          <ListItemStyled key={1} click={() => { }}
+            style={{ color: theme.palette.error.main }}
+            primary={content[language].exit}>
+            <Logout />
+          </ListItemStyled>
+        </List>
+      }
     </div>
   );
 

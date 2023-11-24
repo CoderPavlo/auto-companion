@@ -18,6 +18,11 @@ import NavigateDrawer from "./components/NavigateDrawer";
 import DrawerHeader from "./components/DrawerHeader";
 
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 import { useNavigate } from "react-router-dom";
@@ -89,17 +94,41 @@ export default function Navbar({ logged }) {
   const content = {
     uk: {
       login: 'Ввійти',
-      vinCode: 'Vin-код...'
+      vinCode: 'Vin-код...',
+      error: 'Неправильний Vin-код',
+      errorDesk: 'VIN має містити 17 символів: цифри, латинські літери великого регістру крім літер O, Q та I!!!',
+      ok: 'Гаразд',
     },
     en: {
       login: 'Sign in',
-      vinCode: 'Vin-code...'
+      vinCode: 'Vin-code...',
+      error: 'Invalid Vin code',
+      errorDesk: 'VIN must contain 17 characters: numbers, uppercase Latin letters except letters O, Q and I!!!',
+      ok: 'Ok',
     }
   }
 
 
   const navigate = useNavigate();
+  const [openAlert, setOpenAlert] = React.useState(false);
 
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
+  const handleEnterKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      const vin = event.target.value;
+      const vinRegex = /^[A-HJ-NPR-Z\d]{17}$/;
+
+      if (vinRegex.test(vin)) {
+        navigate(`/vehicle/${event.target.value}`);
+      } else {
+        setOpenAlert(true);
+      }
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" style={{ background: "#333333", zIndex: 200 }} >
@@ -119,6 +148,10 @@ export default function Navbar({ logged }) {
               <StyledInputBase
                 placeholder={content[language].vinCode}
                 inputProps={{ "aria-label": "search" }}
+                sx={{
+                  width: '100%',
+                }}
+                onKeyDown={handleEnterKeyPress}
               />
             </Search>
           </Box>
@@ -175,6 +208,40 @@ export default function Navbar({ logged }) {
       }}>
         <Outlet />
       </Box>
+      <Dialog
+        open={openAlert}
+        onClose={handleCloseAlert}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+          '& .MuiDialogContent-root': {
+              padding: theme.spacing(2),
+          },
+          '& .MuiDialogActions-root': {
+              padding: theme.spacing(1),
+          },
+          '& .MuiPaper-root': {
+              backgroundColor: theme.palette.background.default,
+          },
+          '& .MuiTypography-root': {
+            color: theme.palette.text.primary,
+          }
+      }}
+      >
+        <DialogTitle id="alert-dialog-title">
+        {content[language].error}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          {content[language].errorDesk}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAlert} autoFocus>
+            {content[language].ok}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
