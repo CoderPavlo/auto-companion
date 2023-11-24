@@ -130,33 +130,6 @@ const MiniCalendar = ({ theme, language, value, setValue, handleMonthChange, hig
             height: '50px'
           },
           },
-          /*
-          width: '400px', // Наприклад, 300 пікселів
-          height: '430px',
-          maxHeight: '430px',
-          '& .MuiPickersSlideTransition-root': {
-            height: '320px',
-          },
-          '& .MuiSvgIcon-root': {
-            width: '35px',
-            height: '35px'
-          },
-          '& .MuiPickersCalendarHeader-label':{
-
-            fontSize: '1.25rem',
-          },
-          '& .MuiTypography-root':{
-            
-            fontSize: '1rem',
-            width: '50px',
-            height: '55px',
-          },
-          '& .MuiPickersDay-root': {
-            fontSize: '1.1rem',
-            width: '50px',
-            height: '50px'
-          },
-          */
           "& .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel": {
             color: theme.palette.secondary.main,
           },
