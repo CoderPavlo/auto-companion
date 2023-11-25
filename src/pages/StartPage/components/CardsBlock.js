@@ -73,7 +73,7 @@ const CardsBlock = ({ theme, language }) => {
         
         <Grid container spacing={10}>
         {images.map((image, index) =>(
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={4} key={index}>
             <Card sx={{ background: theme.palette.background.default }} elevation={0}>
               <Container
                 sx={{
@@ -101,6 +101,7 @@ const CardsBlock = ({ theme, language }) => {
               <CardActions>
               {content[language].action[index].map((action, i) =>(
                 <Button
+                  key={i}
                   variant={variant[index][i]}
                   size="small"
                   sx={buttonStyles[variant[index][i]]}

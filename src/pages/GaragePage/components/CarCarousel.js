@@ -139,7 +139,7 @@ const CarCarousel = ({ theme, images, selectedCar, setSelectedCar }) => {
       justifyContent: 'center',
     }}>
       {images.map((image, index) => (
-        <div>
+        <div key={image.title}>
           <ImageButton
             focusRipple
             key={image.title}
