@@ -31,27 +31,20 @@ import {
   Palette,
   AttachMoney
 } from '@mui/icons-material';
+import InfoCard, {getPropertyValue} from '../components/InfoCard.js';
 
 const content = {
   uk: {
     configuration: ['Марка', 'Модель', 'Рік випуску', 'Тип двигуна', 'Кінські сили', 'Тип трансмісії', 'Кількість передач', 'Привід', 'Колір', 'Ціна'],
-    shedule: 'Запланувати сервіс',
     found: 'Знайдено ',
     cars: ' Авто',
     make: 'Марка',
-    more: 'Більше...',
-    history: 'Історія обслуговування',
-    delete: 'Видалити',
   },
   en: {
     configuration: ['Make', 'Model', 'Year', 'Engine Type', 'Horsepower', 'Transmission Type', 'Number of Gears', 'Drive', 'Color', 'Price'],
-    schedule: 'Schedule service',
     found: 'Found ',
     cars: ' cars',
     make: 'Make',
-    more: 'More...',
-    history: 'Service history',
-    delete: 'Delete',
   },
 }
 const icons = [<TimeToLeave />, <Sell />, <Schedule />, <LocalGasStation />, <TimesOneMobiledata />, <Settings />, <MoveUp />, <Adjust />, <Palette />, <AttachMoney />]
@@ -135,21 +128,6 @@ const cars = [
   },
 ];
 
-const getPropertyValue = (obj, path) => {
-  const keys = path.split('.');
-
-  return keys.reduce((acc, key) => {
-    if (acc && key.includes('[')) {
-      const [prop, index] = key.split('[').map(item => item.replace(']', ''));
-      acc = acc[prop][index];
-    } else {
-      acc = acc[key];
-    }
-
-    return acc;
-  }, obj);
-};
-
 const GaragePage = ({ theme, language }) => {
   const [selectedCar, setSelectedCar] = React.useState(0);
   const [brand, setBrand] = React.useState('');
@@ -181,14 +159,6 @@ const GaragePage = ({ theme, language }) => {
     setMakes(makes0);
   }, []);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
 
   return (
@@ -247,68 +217,7 @@ const GaragePage = ({ theme, language }) => {
       <Grid container spacing={0} sx={{ marginBlock: 2 }}>
 
         <Grid item xs={12} md={6} >
-
-          <Card sx={{ background: theme.palette.background.default, margin: 5 }}>
-
-            <CardContent>
-              <Container disableGutters sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography
-                  gutterBottom
-                  variant="h6"
-                  component="div"
-                  color="text"
-                >
-                  {cars[selectedCar].title}
-                </Typography>
-                <IconButton aria-label="more"
-                  color="inherit" onClick={handleClick}>
-                  <MoreVert />
-                </IconButton>
-                <Menu
-                  id="basic-menu"
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                  sx={{
-                    '& .MuiPaper-root': {
-
-                      backgroundColor: 'transparent',
-                    }
-                  }}
-                >
-                  <MenuItem onClick={handleClose}>{content[language].more}</MenuItem>
-                  <MenuItem onClick={handleClose}>{content[language].shedule}</MenuItem>
-                  <MenuItem onClick={handleClose}>{content[language].history}</MenuItem>
-                  <MenuItem onClick={handleClose}>{content[language].delete}</MenuItem>
-                </Menu>
-              </Container>
-              <List sx={{marginLeft: '40px'}}>
-                <Grid container spacing={0}>
-                  {icons.map((icon, index) => (
-                    <Grid item xs={12} sm={6}>
-                      <ListItem key={index}>
-                        <ListItemIcon sx={{ color: theme.palette.secondary.main }}>
-                          {icon}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={getPropertyValue(filteredCars[selectedCar].json, properties[index]).toString().toLowerCase()}
-                          secondary={content[language].configuration[index]}
-                          sx={{
-                            '& .css-83ijpv-MuiTypography-root': {
-                              color: theme.palette.secondary.main
-                            }
-                          }}
-                        />
-                      </ListItem>
-                    </Grid>
-                  ))}
-                </Grid>
-              </List>
-            </CardContent>
-          </Card>
+          <InfoCard theme={theme} language={language} title={cars[selectedCar].title} icons={icons} configuration={content[language].configuration} properties={properties} json={filteredCars[selectedCar].json} type='control'/>
         </Grid>
 
         <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'flex' }, position: 'relative', marginBlock: 2, paddingBlock: 5 }}>
