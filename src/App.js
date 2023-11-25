@@ -60,7 +60,8 @@ function App() {
             <Route path="calendar" element={<CalendarPage theme={theme} language={language}/>} />  
             <Route path="bugs" element={<div />} />  
             <Route path="promotions" element={<div />} />  
-            <Route path="vehicle/:vin" element={<VinPage/>}/>
+            <Route path="vehicle/:vin" element={<VinPage theme={theme} language={language} IsInGarage={false}/>}/>
+            <Route path="garage/:vin" element={<VinPage theme={theme} language={language} IsInGarage={true}/>}/>
           </Route>
           
           <Route path="/signIn" element={<SignInPage theme={theme} language={language} setLogged={setLogged}/>} />  

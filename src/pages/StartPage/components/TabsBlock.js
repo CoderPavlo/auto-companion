@@ -13,7 +13,7 @@ import imagePromotion from "../image/promotion.jpg";
 import imageServiceHistory from "../image/serviceHistory.jpg";
 
 
-const TabsBlock = ({theme, language}) => {
+const TabsBlock = ({ theme, language }) => {
   const [value, setValue] = React.useState(0);
 
 
@@ -147,14 +147,14 @@ const TabsBlock = ({theme, language}) => {
             value={value}
             onChange={handleChange}
             aria-label="icon position tabs"
-            maxWidth="100%"
           >
             {icons.map((icon, index) => (
               <Tab
+                key={index}
                 icon={icon}
                 iconPosition="start"
                 label={content[language].title[index]}
-                sx={{fontSize: { xs: 0, sm: 0, md: 12, lg: 18 }}}
+                sx={{ fontSize: { xs: 0, sm: 0, md: 12, lg: 18 }, color: theme.palette.secondary.main }}
                 {...a11yProps(index)}
               />
             ))}
@@ -162,6 +162,7 @@ const TabsBlock = ({theme, language}) => {
         </Grid>
         {content[language].title.map((title, index) => (
           <TabPanel
+            key={index}
             value={value}
             index={index}
             title={title}
