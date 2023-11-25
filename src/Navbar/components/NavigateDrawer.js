@@ -104,18 +104,18 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       <Divider />
       {
         logged &&
-        <List>
-          <ListItemStyled key={0} click={() => { }} primary={userData.name}>
-            <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
-          </ListItemStyled>
+      <List>
+        <ListItemStyled key={0} click={() => navigate('/home')} primary={userData.name}>
+          <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
+        </ListItemStyled>
 
-          <ListItemStyled key={1} click={() => { }}
-            style={{ color: theme.palette.error.main }}
-            primary={content[language].exit}>
-            <Logout />
-          </ListItemStyled>
-        </List>
-      }
+        <ListItemStyled key={1} click={() => { }}
+          style={{ color: theme.palette.error.main }}
+          primary={content[language].exit}>
+          <Logout />
+        </ListItemStyled>
+      </List>
+}
     </div>
   );
 
