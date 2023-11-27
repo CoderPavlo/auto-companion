@@ -1,6 +1,6 @@
 import React from 'react'
 import { json } from '../GaragePage/car.js'
-import car1 from '../components/images/car1.png'
+import car from './images/car.png'
 import InfoCard from '../components/InfoCard.js'
 import {
   Container,
@@ -50,6 +50,10 @@ import {
 } from '@mui/icons-material';
 
 import { useParams } from 'react-router-dom';
+import CarDialog from './components/CarDialog.js';
+import Alert from '../components/Alert.js'
+
+
 const iconsTab = [<Public />, <Build />, <Sync />, <FormatListBulleted />];
 
 const content = {
@@ -63,7 +67,8 @@ const content = {
     ],
     add: 'Додати до гаражу',
     delete: 'Видалити з гаражу',
-
+    titleAlert: 'Видалення авто',
+    textAlert: 'Підтвердіть видалення вашого авто та всієї інформації щодо цього авто з гаражу',
 
   },
   en: {
@@ -76,6 +81,8 @@ const content = {
     ],
     add: 'Add to garage',
     delete: 'Delete from garage',
+    titleAlert: 'Car removal',
+    textAlert: 'Confirm the removal of your car and all information about this car from the garage',
   }
 
 }
@@ -185,7 +192,14 @@ const VinPage = ({ theme, language, IsInGarage }) => {
   const [value, setValue] = React.useState(0);
   const [favorite, setFavorite] = React.useState(IsInGarage);
 
-  const handleChange = (eentv, newValue) => {
+  const changeFavorite = () => {
+    if (favorite)
+      setOpenAlert(true);
+    else
+      setOpenDialog(true);
+  }
+
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -195,14 +209,19 @@ const VinPage = ({ theme, language, IsInGarage }) => {
       "aria-controls": `tabpanel-${index}`,
     };
   }
-  const handleChangeFavorite = (event) => {
-    setFavorite(event.target.checked);
-  }
+
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const [openAlert, setOpenAlert] = React.useState(true);
+
+  const handleClickCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
-    <div style={{width: '100%',  marginLeft: 3, marginRight: 3, }}>
-      <Grid container spacing={5} sx={{paddingLeft: {xs: 0, md: 20}, paddingRight: {xs: 0, md: 20}, }}>
+    <div style={{ width: '100%', marginLeft: 3, marginRight: 3, }}>
+      <Grid container spacing={5} sx={{ paddingLeft: { xs: 0, md: 20 }, paddingRight: { xs: 0, md: 20 }, }}>
         <Grid item xs={4} md={3}>
-          <img src={car1} alt='car' style={{ width: '100%' }} />
+          <img src={car} alt='car' style={{ width: '100%' }} />
         </Grid>
         <Grid item xs={4} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <Typography
@@ -211,7 +230,7 @@ const VinPage = ({ theme, language, IsInGarage }) => {
             component="div"
             color={theme.palette.text.main}
           >
-            Name
+            {json.make.name}{' '}{json.model.name}
           </Typography>
           <Typography
             gutterBottom
@@ -226,7 +245,7 @@ const VinPage = ({ theme, language, IsInGarage }) => {
           <Tooltip title={favorite ? content[language].delete : content[language].add}>
             <Checkbox
               checked={favorite}
-              onChange={handleChangeFavorite}
+              onChange={changeFavorite}
               icon={<BookmarkBorder sx={{ color: theme.palette.secondary.main, fontSize: '3rem' }} />}
               checkedIcon={<Bookmark sx={{ fontSize: '3rem' }} />}
             />
@@ -265,12 +284,19 @@ const VinPage = ({ theme, language, IsInGarage }) => {
             display: value === index ? 'block' : 'none',
             marginTop: -4,
           }}
+          key={title}
         >
           {value === index &&
             <InfoCard theme={theme} language={language} icons={icons[index]} configuration={content[language].configuration[index]} properties={properties[index]} json={json} />
           }
         </Container>
       ))}
+      <CarDialog theme={theme} language={language} 
+      initialName={json.make.name + ' ' + json.model.name}
+      open={openDialog} handleClickClose={handleClickCloseDialog} setSucess={setFavorite} />
+      <Alert theme={theme} language={language}
+        title={content[language].titleAlert} text={content[language].textAlert}
+        open={openAlert} handleClose={() => setOpenAlert(false)} handleClickOK={() => setFavorite(false)} />
     </div>
   )
 }

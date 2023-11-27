@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import CarCarousel from './components/CarCarousel'
 import car1 from "./../components/images/car1.png"
+import car from "./../components/images/car.png"
 import car2 from "./../components/images/car2.png"
 import car3 from "./../components/images/car3.png"
 import car4 from "./../components/images/car4.png"
@@ -19,7 +20,6 @@ import {
 } from '@mui/material';
 
 import {
-  MoreVert,
   TimeToLeave,
   Sell,
   Schedule,
@@ -51,6 +51,12 @@ const icons = [<TimeToLeave />, <Sell />, <Schedule />, <LocalGasStation />, <Ti
 const properties = ['make.name', 'model.name', 'years[0].year', 'engine.type', 'engine.horsepower', 'transmission.transmissionType', 'transmission.numberOfSpeeds', 'drivenWheels', 'colors[1].options[0].name', 'price.baseMsrp'];
 
 const cars = [
+  
+  {
+    src: car,
+    title: 'Lamborgini Urus',
+    json: json,
+  },
   {
     src: car1,
     title: 'Bmw dsc',

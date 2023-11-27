@@ -6,7 +6,7 @@ import {
     Paper
 } from '@mui/material'
 
-const ImageInput = ({ language, theme, selectedImage, setSelectedImage }) => {
+const ImageInput = ({ language, theme, selectedImage, setSelectedImage, type='avatar' }) => {
 
     const {
         getRootProps,
@@ -70,16 +70,20 @@ const ImageInput = ({ language, theme, selectedImage, setSelectedImage }) => {
     const content = {
         uk: {
             selectedImage: 'Вибране зображення: ',
-            notselectedImage: "Виберіть зображення для вашого аватару",
+            notselectedImage: type==='car' ? "Виберіть зображення для вашого авто" : "Виберіть зображення для вашого аватару",
+            notselectedImageCar: "Виберіть зображення для вашого авто",
         },
         en: {
             selectedImage: 'Selected image: ',
-            notselectedImage: "Select an image for your avatar",
+            
+            notselectedImage: type==='car' ? "Select an image for your car" : "Select an image for your avatar",
+            notselectedImageAvatar: "Select an image for your avatar",
+            notselectedImageCar: "Select an image for your car",
         }
     }
 
     return (
-        <Paper elevation={3} >
+        <Paper elevation={3} style={{width:'100%'}}>
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} />
                 <Typography variant="body1">

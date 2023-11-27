@@ -76,7 +76,7 @@ function ServerDay(props) {
   );
 }
 
-const MiniCalendar = ({ theme, language, value, setValue, handleMonthChange, highlightedDays, isLoading}) => {
+const MiniCalendar = ({ theme, language, value, setValue, handleMonthChange, highlightedDays, isLoading, size='small'}) => {
 
  
   
@@ -91,6 +91,38 @@ const MiniCalendar = ({ theme, language, value, setValue, handleMonthChange, hig
   const handleChange =(newValue)=>{
     setValue(newValue);
   }
+
+  const calendarStyle = {
+    width: '400px', // Наприклад, 300 пікселів
+    height: '430px',
+    maxHeight: '430px',
+    '& .MuiPickersSlideTransition-root': {
+      height: '320px',
+    },
+    '& .MuiSvgIcon-root': {
+      width: '35px',
+      height: '35px'
+    },
+    '& .MuiPickersCalendarHeader-label':{
+
+      fontSize: '1.25rem',
+    },
+    '& .MuiTypography-root':{
+      
+      fontSize: '1rem',
+      width: '50px',
+      height: '55px',
+    },
+    '& .MuiPickersDay-root': {
+      fontSize: '1.1rem',
+      width: '50px',
+      height: '50px'
+    },
+  }
+
+  const sceletonStyle = {
+    '& .MuiSkeleton-root':{width: '50px !important', height: '50px !important'}
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language==='uk'? uk : en}
     localeText={language === 'uk' ? ukUA.components.MuiLocalizationProvider.defaultProps.localeText : undefined}
@@ -100,36 +132,18 @@ const MiniCalendar = ({ theme, language, value, setValue, handleMonthChange, hig
         onChange={handleChange}
         loading={isLoading}
         onMonthChange={handleMonthChange}
-        renderLoading={() => <DayCalendarSkeleton sx={{[theme.breakpoints.down('md')]: {'& .MuiSkeleton-root':{width: '50px !important', height: '50px !important'}}}} />}
+        renderLoading={() => <DayCalendarSkeleton sx={{[theme.breakpoints.down('md')]: {...sceletonStyle}, 
+        ...((size === 'large') && {
+          ...sceletonStyle
+        }),}} />}
         dayOfWeekFormatter={dayOfWeekFormatter}
         sx={{
           [theme.breakpoints.down('md')]: {
-            width: '400px', // Наприклад, 300 пікселів
-          height: '430px',
-          maxHeight: '430px',
-          '& .MuiPickersSlideTransition-root': {
-            height: '320px',
+            ...calendarStyle
           },
-          '& .MuiSvgIcon-root': {
-            width: '35px',
-            height: '35px'
-          },
-          '& .MuiPickersCalendarHeader-label':{
-
-            fontSize: '1.25rem',
-          },
-          '& .MuiTypography-root':{
-            
-            fontSize: '1rem',
-            width: '50px',
-            height: '55px',
-          },
-          '& .MuiPickersDay-root': {
-            fontSize: '1.1rem',
-            width: '50px',
-            height: '50px'
-          },
-          },
+          ...((size === 'large') && {
+            ...calendarStyle
+          }),
           "& .css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel": {
             color: theme.palette.secondary.main,
           },
