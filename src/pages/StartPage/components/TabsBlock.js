@@ -142,11 +142,11 @@ const TabsBlock = ({ theme, language }) => {
       }}
     >
       <Container style={containerStyle}>
-        <Grid container justifyContent="center">
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="icon position tabs"
+            centered
           >
             {icons.map((icon, index) => (
               <Tab
@@ -159,7 +159,6 @@ const TabsBlock = ({ theme, language }) => {
               />
             ))}
           </Tabs>
-        </Grid>
         {content[language].title.map((title, index) => (
           <TabPanel
             key={index}

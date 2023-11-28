@@ -180,6 +180,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                             {content[language].car}
                         </InputLabel>
                         <StyledSelect
+                        autoFocus
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={eventCar}

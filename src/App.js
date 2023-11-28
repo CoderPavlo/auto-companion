@@ -12,6 +12,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage';
 import CalendarPage from './pages/CalendarPage/CalendarPage';
 import HomePage from './pages/HomePage/HomePage';
 import VinPage from './pages/VinPage/VinPage';
+import BugsPage from './pages/BugsPage/BugsPage';
 
 function App() {
 
@@ -59,7 +60,7 @@ function App() {
             
             <Route path="garage" element={<GaragePage theme={theme} language={language}/>} />    
             <Route path="calendar" element={<CalendarPage theme={theme} language={language}/>} />  
-            <Route path="bugs" element={<div />} />  
+            <Route path="bugs" element={<BugsPage theme={theme} language={language}/>} />  
             <Route path="promotions" element={<div />} />  
 
             <Route path="home" element={<HomePage theme={theme} language={language}/>} />

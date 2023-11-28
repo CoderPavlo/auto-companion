@@ -211,7 +211,7 @@ const VinPage = ({ theme, language, IsInGarage }) => {
   }
 
   const [openDialog, setOpenDialog] = React.useState(false);
-  const [openAlert, setOpenAlert] = React.useState(true);
+  const [openAlert, setOpenAlert] = React.useState(false);
 
   const handleClickCloseDialog = () => {
     setOpenDialog(false);
