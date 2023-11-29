@@ -17,12 +17,17 @@ import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import ImageInput from '../components/ImageInput';
+
+import { request, setAuthHeader } from '../../helpers/axios_helper';
+import axios from 'axios';
+
 const SignUpPage = ({ theme, language, setLogged }) => {
 
     const [selectedImage, setSelectedImage] = React.useState(null);
 
     const handleSubmit = (event) => {
         const data = new FormData(event.currentTarget);
+        event.preventDefault();
         const name = data.get('firstName');
 
         const lastName = data.get('lastName');
@@ -30,27 +35,45 @@ const SignUpPage = ({ theme, language, setLogged }) => {
 
         if (email === undefined || !email.includes('@')) {
             setErrorEmail(true);
-
-            event.preventDefault();
             return;
         }
         const password = data.get('password');
         let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
         if (password === undefined || !regex.test(password)) {
             setErrorPassword(true);
-
-            event.preventDefault();
             return;
         }
+        const data2={
+            firstName: name,
+            lastName: lastName,
+            email: email,
+            password: password,
+            role: 'user'
+        }
+        // axios.post('http://localhost:8080/register', data2)
 
         // Ваша обробка форми тут
+        request(
+            "POST",
+            "/auth/register",
+            {
+                firstname: name,
+                lastname: lastName,
+                email: email,
+                password: password,
+                role: 'user'
+            }).then(
+                (response) => {
+                    setAuthHeader(response.data.token);
+                    navigate('/');
+                    setLogged(true);
+                }).catch(
+                    (error) => {
+                        setAuthHeader(null);
+                        console.log(error);
+                    }
+                );
 
-        navigate('/');
-        setLogged(true);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
     };
 
 
