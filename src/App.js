@@ -13,6 +13,7 @@ import CalendarPage from './pages/CalendarPage/CalendarPage';
 import HomePage from './pages/HomePage/HomePage';
 import VinPage from './pages/VinPage/VinPage';
 import BugsPage from './pages/BugsPage/BugsPage';
+import HistoryPage from './pages/HistoryPage/HistoryPage';
 
 function App() {
 
@@ -67,7 +68,7 @@ function App() {
 
             <Route path="vehicle/:vin" element={<VinPage theme={theme} language={language} IsInGarage={false}/>}/>
             <Route path="garage/:vin" element={<VinPage theme={theme} language={language} IsInGarage={true}/>}/>
-
+            <Route path="history" element={<HistoryPage theme={theme} language={language}/>}/>
           </Route>
           
           <Route path="/signIn" element={<SignInPage theme={theme} language={language} setLogged={setLogged}/>} />  

@@ -53,18 +53,18 @@ const content = {
         shedule: 'Запланувати',
     },
     en: {
-        title: 'Групи піктограм',
-        groups: ['Червоні', 'Помаранчеві', 'Зелені'],
-        groupsText: [
-            'Зазвичай сигналізують про критичні ситуації та забороняють водієві використовувати машину в поточному режимі. Наприклад, лампочка Check Engine говорить про те, що з мотором щось не так та потрібно якомога швидше дістатися до СТО. Також червоні світлодіоди можуть сигналізувати про те, що двері не повністю прикриті, що водій або пасажир не пристебнутий та ін.',
-            'Це попереджувальні лампи. Найчастіше показують рекомендації або сповіщають, що виявлені неполадки в допоміжних системах. Використовувати транспортний засіб в цьому випадку допускається, але все ж рекомендується враховувати сигнал та вжити відповідних заходів. Наприклад, помаранчеві піктограми можуть показувати, що габаритна лампочка перегоріла, що в омивачі мало рідини або не працює датчик освітленості.',
-            'Найчастіше повідомляють про те, що якась система нормально функціонує. Наприклад, що включений кондиціонер або клімат-контроль. Це інформаційна група, яка просто видає потрібну інформацію. Відзначимо, що в ній можуть бути й інші кольори. Наприклад, дальнє світло більшості транспортних засобів представлене у вигляді синьої піктограми.',
-        ],
-        event: 'Подія',
-        car: 'Авто',
-        date: 'Дата',
-        desk: 'Опис',
-        shedule: 'Запланувати',
+        title: 'Icon Groups',
+         groups: ['Red', 'Orange', 'Green'],
+         groupsText: [
+             'They usually signal critical situations and forbid the driver to use the car in the current mode. For example, the Check Engine light indicates that something is wrong with the engine and you need to get to the service station as soon as possible. Also, red LEDs can signal that the door is not completely closed, that the driver or passenger is not wearing a seat belt, etc.',
+             'These are warning lights. Most often, they show recommendations or notify that problems have been detected in auxiliary systems. It is allowed to use a vehicle in this case, but it is still recommended to take into account the signal and take appropriate measures. For example, orange icons can show that the marker light has burned out, that there is little liquid in the washer, or that the light sensor is not working.',
+             'Most often they report that some system is functioning normally. For example, that the air conditioner or climate control is turned on. This is an information group that simply gives out the information you need. Note that it may contain other colors. For example, the main beam of most vehicles is represented by a blue icon.',
+         ],
+         event: 'Event',
+         car: 'Car',
+         date: 'Date',
+         desk: 'Description',
+         schedule: 'Schedule',
     }
 }
 

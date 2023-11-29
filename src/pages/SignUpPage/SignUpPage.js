@@ -18,12 +18,32 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import ImageInput from '../components/ImageInput';
 const SignUpPage = ({ theme, language, setLogged }) => {
-    
+
     const [selectedImage, setSelectedImage] = React.useState(null);
 
     const handleSubmit = (event) => {
-        event.preventDefault();
         const data = new FormData(event.currentTarget);
+        const name = data.get('firstName');
+
+        const lastName = data.get('lastName');
+        const email = data.get('email');
+
+        if (email === undefined || !email.includes('@')) {
+            setErrorEmail(true);
+
+            event.preventDefault();
+            return;
+        }
+        const password = data.get('password');
+        let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+        if (password === undefined || !regex.test(password)) {
+            setErrorPassword(true);
+
+            event.preventDefault();
+            return;
+        }
+
+        // Ваша обробка форми тут
 
         navigate('/');
         setLogged(true);
@@ -75,6 +95,9 @@ const SignUpPage = ({ theme, language, setLogged }) => {
 
     const navigate = useNavigate();
 
+    const [errorEmail, setErrorEmail] = React.useState(false);
+    const [errorPassword, setErrorPassword] = React.useState(false);
+
     return (
         <Grid container component="main" sx={{ height: '100vh' }}>
             <CssBaseline />
@@ -106,7 +129,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                     <Typography component="h1" variant="h5">
                         {content[language].signUp}
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <StyledTextField
@@ -116,7 +139,6 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                                     fullWidth
                                     id="firstName"
                                     label={content[language].firstName}
-                                    autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -130,7 +152,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                               <ImageInput language={language} theme={theme} selectedImage={selectedImage} setSelectedImage={setSelectedImage}/>
+                                <ImageInput language={language} theme={theme} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
                             </Grid>
                             <Grid item xs={12}>
                                 <StyledTextField
@@ -140,6 +162,8 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                                     label={content[language].email}
                                     name="email"
                                     autoComplete="email"
+                                    error={errorEmail}
+
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -151,6 +175,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    error={errorPassword}
                                 />
                             </Grid>
                             <Grid item xs={12}>
