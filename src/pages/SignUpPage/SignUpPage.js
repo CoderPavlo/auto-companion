@@ -27,12 +27,13 @@ const SignUpPage = ({ theme, language, setLogged }) => {
 
         navigate('/');
         setLogged(true);
-        console.log({
+        localStorage.setItem('userInfo', JSON.stringify({
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
             email: data.get('email'),
             password: data.get('password'),
-        });
+          }));
     };
-
 
     const StyledTextField = styled(TextField)({
 
