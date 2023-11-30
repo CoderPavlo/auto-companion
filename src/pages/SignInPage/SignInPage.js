@@ -14,17 +14,35 @@ import avatar from '../../images/avatar.png'
 
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
+
+import { request, setAuthHeader } from '../../helpers/axios_helper';
+
 export default function SignInPage({ theme, language, setLogged }) {
+  const [errorMessage, setErrorMessage] = React.useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    navigate('/');
-    setLogged(true);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const email = data.get('email');
+    const password = data.get('password');
+    request(
+      "POST",
+      "/auth/authenticate",
+      {
+          email: email,
+          password: password
+      }).then(
+          (response) => {
+              setErrorMessage('');
+              setAuthHeader(response.data.access_token);
+              navigate('/');
+              setLogged(true);
+          }).catch(
+              (error) => {
+                setErrorMessage(content[language].incorrectLogin);
+                  setAuthHeader(null);
+              }
+          );
   };
 
   const StyledTextField = styled(TextField)({
@@ -52,6 +70,7 @@ export default function SignInPage({ theme, language, setLogged }) {
       forgPass: 'Забули пароль?',
       remember: "Запам'ятати мене",
       dontHaveAc: "Не маєте акаунту? Зареєструватися",
+      incorrectLogin: 'Неправильний логін або пароль',
     },
     en: {
       signIn: 'Sign in',
@@ -60,7 +79,7 @@ export default function SignInPage({ theme, language, setLogged }) {
       forgPass: 'Forgot password?',
       remember: 'Remember me',
       dontHaveAc: "Don't have an account? Sign Up",
-
+      incorrectLogin: 'Incorrect login or password',
     }
   }
 
@@ -96,7 +115,7 @@ export default function SignInPage({ theme, language, setLogged }) {
           <Typography component="h1" variant="h5">
             {content[language].signIn}
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <StyledTextField
               margin="normal"
               required
@@ -106,6 +125,7 @@ export default function SignInPage({ theme, language, setLogged }) {
               name="email"
               autoComplete="email"
               autoFocus
+              error={errorMessage!==''}
             />
             <StyledTextField
               margin="normal"
@@ -116,7 +136,8 @@ export default function SignInPage({ theme, language, setLogged }) {
               type="password"
               id="password"
               autoComplete="current-password"
-
+              error={errorMessage!==''}
+              helperText={errorMessage}
             />
             <FormControlLabel
               control={<Checkbox value="remember" sx={{ color: theme.palette.secondary.main }} />}

@@ -19,7 +19,6 @@ import { styled } from '@mui/material/styles';
 import ImageInput from '../components/ImageInput';
 
 import { request, setAuthHeader } from '../../helpers/axios_helper';
-import axios from 'axios';
 
 const SignUpPage = ({ theme, language, setLogged }) => {
 
@@ -43,16 +42,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
             setErrorPassword(true);
             return;
         }
-        const data2={
-            firstName: name,
-            lastName: lastName,
-            email: email,
-            password: password,
-            role: 'user'
-        }
-        // axios.post('http://localhost:8080/register', data2)
 
-        // Ваша обробка форми тут
         request(
             "POST",
             "/auth/register",
@@ -61,16 +51,15 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                 lastname: lastName,
                 email: email,
                 password: password,
-                role: 'user'
+                role: '0'
             }).then(
                 (response) => {
-                    setAuthHeader(response.data.token);
+                    setAuthHeader(response.data.access_token);
                     navigate('/');
                     setLogged(true);
                 }).catch(
                     (error) => {
                         setAuthHeader(null);
-                        console.log(error);
                     }
                 );
 
