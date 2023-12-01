@@ -53,47 +53,49 @@ const events = [
     {
         date: '25.11.2023',
         type: 'oil_change',
-        desk: 'Заміна масла',
+        desk: 'Oil change',
     },
 
     {
         date: '25.10.2023',
         type: 'belt_change',
-        desk: 'Заміна ременів',
+        desk: 'Replacing belts',
     },
 
     {
         date: '25.11.2022',
         type: 'battery_replacement',
-        desk: 'Планова заміна акумулятора',
+        desk: 'Scheduled battery replacement',
     },
 
     {
         date: '30.09.2022',
         type: 'ac_refill',
-        desk: 'Заправка кондиціонера',
+        desk: 'Filling the air conditioner',
     },
     {
         date: '02.09.2022',
         type: 'routine_maintenance',
-        desk: 'Планове технічне обслуговування',
+        desk: 'Scheduled maintenance',
     },
 ];
 
 const EditEvent = {
-    date: '30.11.2023',
+    date: '01.12.2023',
     type: 'routine_maintenance',
-    desk: 'Планове технічне обслуговування',
+    desk: 'Scheduled maintenance',
 };
 
 const content = {
-    uk : {
+    uk: {
         history: 'Історія обслуговування',
         save: 'Зберегти',
+        placeholder: 'Внесіть дані про подію'
     },
-    en : {
+    en: {
         history: 'Service history',
         save: 'Save',
+        placeholder: 'Enter event details'
     },
 }
 
@@ -101,6 +103,7 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
     const initialStateArray = Array.from({ length: events.length }, () => false);
     const [open, setOpen] = React.useState(initialStateArray);
     const [edit, setEdit] = React.useState(true);
+    const [editColl, setEditColl] = React.useState(true);
 
     const updateState = (index) => {
         setOpen((prevStates) => {
@@ -121,8 +124,8 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
 
     return (
         <Grid container spacing={5} sx={{ paddingLeft: { xs: 0, md: 20 }, paddingRight: { xs: 0, md: 20 }, }}>
-            <Grid item xs={6}>
-                <img src={car} alt='car' style={{ width: '100%' }} />
+            <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <img src={car} alt='car' style={{ width: '50%' }} />
             </Grid>
             <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <Typography
@@ -144,7 +147,7 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
             </Grid>
             <Grid item xs={12}>
 
-                <Card sx={{ background: theme.palette.background.default, margin: 5 }}>
+                <Card sx={{ background: theme.palette.background.default, marginInline: 5, marginBottom: 5 }}>
                     <CardContent>
                         <List
                             sx={{ width: '100%' }}
@@ -156,38 +159,41 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
                                 </ListSubheader>
                             }
                         >
-                            {
-                                edit &&
-                                <>
-                                    <ListItem key={`item0`}>
-                                        <ListItemIcon sx={{ color: getColorByType(EditEvent.type) }}>
-                                            {getIconByType(EditEvent.type)}
-                                        </ListItemIcon>
-                                        <ListItemText primary={EditEvent.desk} secondary={EditEvent.date} sx={{ '& .MuiListItemText-secondary': { color: theme.palette.secondary.main } }} />
-                                    </ListItem>
+                            <ListItemButton key={`item0`} onClick={() => setEditColl(!editColl)}>
+                                <ListItemIcon sx={{ color: getColorByType(EditEvent.type) }}>
+                                    {getIconByType(EditEvent.type)}
+                                </ListItemIcon>
+                                <ListItemText primary={EditEvent.desk} secondary={EditEvent.date} sx={{ '& .MuiListItemText-secondary': { color: theme.palette.secondary.main } }} />
+                                {editColl ? <ExpandLess /> : <ExpandMore />}
+                            </ListItemButton>
 
-                                    <Collapse key={`collapse0`} in={true} timeout="auto" unmountOnExit>
-                                        <Container>
-                                            <Editor theme={theme} placeholder='dvdvs' editorHtml={editorHtml} setEditorHtml={setEditorHtml} />
-                                            <Container sx={{ marginTop: 1, display: 'flex', justifyContent: 'flex-end' }} disableGutters>
-                                                <Button
-                                                    variant="outlined"
-                                                    size="medium"
-                                                    onClick={save}
-                                                    sx={{
-                                                        color: theme.palette.primary.main,
-                                                    }}
-                                                >
-                                                    {content[language].save}
-                                                </Button>
-                                            </Container>
-
+                            <Collapse key={`collapse0`} in={editColl} timeout="auto" unmountOnExit>
+                                {edit &&
+                                    <Container>
+                                        <Editor theme={theme} placeholder={content[language].placeholder} editorHtml={editorHtml} setEditorHtml={setEditorHtml} />
+                                        <Container sx={{ marginTop: 1, display: 'flex', justifyContent: 'flex-end' }} disableGutters>
+                                            <Button
+                                                variant="outlined"
+                                                size="medium"
+                                                onClick={save}
+                                                sx={{
+                                                    color: theme.palette.primary.main,
+                                                }}
+                                            >
+                                                {content[language].save}
+                                            </Button>
                                         </Container>
-                                    </Collapse>
 
-                                </>
+                                    </Container>
+                                }
+                                {!edit &&
+                                    <Container dangerouslySetInnerHTML={{ __html: loadedHtml }}>
 
-                            }
+                                    </Container>
+                                }
+                            </Collapse>
+
+
 
 
                             {events.map((item, index) => (
@@ -211,7 +217,7 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
                     </CardContent>
                 </Card>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 

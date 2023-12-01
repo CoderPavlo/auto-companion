@@ -28,6 +28,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from '../context/LanguageContext';
 
+import { getAuthToken } from '../helpers/axios_helper';
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -157,7 +159,7 @@ export default function Navbar({ logged }) {
           </Box>
           <Box >
             {
-              !logged &&
+              getAuthToken()===null &&
               <Button variant="outlined" startIcon={<LoginIcon />} onClick={() => navigate('/signIn')}
                 sx={{
                   fontSize: {
@@ -170,13 +172,13 @@ export default function Navbar({ logged }) {
               </Button>
             }
             {
-              logged &&
+              getAuthToken() &&
               <IconButton
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="error">
+                <Badge badgeContent={1} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

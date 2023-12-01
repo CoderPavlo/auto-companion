@@ -18,11 +18,12 @@ import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import ImageInput from '../components/ImageInput';
 
-import { request, setAuthHeader } from '../../helpers/axios_helper';
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
 
 const SignUpPage = ({ theme, language, setLogged }) => {
 
     const [selectedImage, setSelectedImage] = React.useState(null);
+    const [register, setRegister] = React.useState(true);
 
     const handleSubmit = (event) => {
         const data = new FormData(event.currentTarget);
@@ -55,8 +56,8 @@ const SignUpPage = ({ theme, language, setLogged }) => {
             }).then(
                 (response) => {
                     setAuthHeader(response.data.access_token);
-                    navigate('/');
                     setLogged(true);
+                    setRegister(false);
                 }).catch(
                     (error) => {
                         setAuthHeader(null);
@@ -64,6 +65,29 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                 );
 
     };
+
+    const handleSubmitAvatar = (event) => {
+        event.preventDefault();
+        if (selectedImage) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const byteArray = new Uint8Array(event.target.result);
+                
+                request("POST", `/users/${getUserId()}/uploadImage`, {
+                    image: selectedImage,
+                  })
+                    .then((response) => {
+                      console.log(response);
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+            }
+
+            reader.readAsArrayBuffer(selectedImage);
+        }
+        navigate('/');
+    }
 
 
     const StyledTextField = styled(TextField)({
@@ -92,6 +116,9 @@ const SignUpPage = ({ theme, language, setLogged }) => {
             password: 'Пароль',
             reseiveProm: 'Я хочу отримувати пропозиції, акції та оновлення електронною поштою.',
             haveAc: 'Вже є аккаунт? Увійти',
+
+            avatar: 'Завантаження аватару',
+            upload: 'Завантажити'
         },
         en: {
             signUp: 'Sign Up',
@@ -101,7 +128,8 @@ const SignUpPage = ({ theme, language, setLogged }) => {
             password: 'Password',
             reseiveProm: 'I want to receive offers, promotions and updates by email.',
             haveAc: 'Already have an account? Sign in',
-
+            avatar: 'Load avatar',
+            upload: 'Upload'
         }
     }
 
@@ -111,7 +139,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
     const [errorPassword, setErrorPassword] = React.useState(false);
 
     return (
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Grid container component="main" sx={{ height: '100vh' }} >
             <CssBaseline />
             <Grid
                 item
@@ -139,83 +167,97 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                 >
                     <Avatar sx={{ m: 1 }} src={selectedImage ? URL.createObjectURL(selectedImage) : avatar} />
                     <Typography component="h1" variant="h5">
-                        {content[language].signUp}
+                        {register ? content[language].signUp : content[language].avatar}
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <StyledTextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstName"
-                                    label={content[language].firstName}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <StyledTextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label={content[language].lastName}
-                                    name="lastName"
-                                    autoComplete="family-name"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ImageInput language={language} theme={theme} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <StyledTextField
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label={content[language].email}
-                                    name="email"
-                                    autoComplete="email"
-                                    error={errorEmail}
+                    {register &&
+                        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <StyledTextField
+                                        autoComplete="given-name"
+                                        name="firstName"
+                                        required
+                                        fullWidth
+                                        id="firstName"
+                                        label={content[language].firstName}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <StyledTextField
+                                        required
+                                        fullWidth
+                                        id="lastName"
+                                        label={content[language].lastName}
+                                        name="lastName"
+                                        autoComplete="family-name"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <StyledTextField
+                                        required
+                                        fullWidth
+                                        id="email"
+                                        label={content[language].email}
+                                        name="email"
+                                        autoComplete="email"
+                                        error={errorEmail}
 
-                                />
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <StyledTextField
+                                        required
+                                        fullWidth
+                                        name="password"
+                                        label={content[language].password}
+                                        type="password"
+                                        id="password"
+                                        autoComplete="new-password"
+                                        error={errorPassword}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControlLabel
+                                        control={<Checkbox value="allowExtraEmails" sx={{ color: theme.palette.secondary.main }} />}
+                                        label={content[language].reseiveProm}
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <StyledTextField
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label={content[language].password}
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
-                                    error={errorPassword}
-                                />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                {content[language].signUp}
+                            </Button>
+                            <Grid container justifyContent="flex-end">
+                                <Grid item>
+                                    <Link href="/signIn" variant="body2">
+                                        {content[language].haveAc}
+                                    </Link>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" sx={{ color: theme.palette.secondary.main }} />}
-                                    label={content[language].reseiveProm}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            {content[language].signUp}
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link href="/signIn" variant="body2">
-                                    {content[language].haveAc}
-                                </Link>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                        </Box>
+                    }
+                    {!register &&
+
+                        <Box width= '100%' component="form" onSubmit={handleSubmitAvatar} sx={{ mt: 3 }}>
+                            <ImageInput language={language} theme={theme} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
+
+                            <Button
+                                type='submit'
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                {content[language].upload}
+                            </Button>
+                        </Box>
+                    }
                 </Box>
             </Grid>
-        </Grid>
+        </Grid >
     )
 }
 

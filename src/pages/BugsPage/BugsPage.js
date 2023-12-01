@@ -32,6 +32,15 @@ import car3 from "../components/images/car3.png"
 import car4 from "../components/images/car4.png"
 import car5 from "../components/images/car5.png"
 
+
+
+import car from "../components/images/car.png"
+import audi from "../components/images/audi-a3.png"
+import audiq8 from "../components/images/audi_q8.png"
+import bmwx5 from "../components/images/bmw_x5.png"
+import mersedes_s from "../components/images/mercedes_s.png"
+import volvo_xc90 from "../components/images/volvo_xc90.png"
+
 import en from 'dayjs/locale/en-gb';
 import uk from 'dayjs/locale/uk';
 import dayjs from 'dayjs';
@@ -73,35 +82,35 @@ const content = {
 const cars = [
     {
         id: 1,
-        image: car1,
-        name: 'sdavaf',
+        image: car,
+        name: 'Lamborgini Urus',
     },
     {
-
         id: 2,
-        image: car2,
-        name: 'sdavaf',
+        image: audiq8,
+        name: 'Audi Q8',
     },
     {
-
         id: 3,
-        image: car3,
-        name: 'sdavaf',
+        image: bmwx5,
+        name: 'Bmw X5',
     },
     {
-
         id: 4,
-        image: car4,
-        name: 'sdavaf',
+        image: mersedes_s,
+        name: 'Mersedes S-class',
     },
     {
-
         id: 5,
-        image: car5,
-        name: 'sdavaf',
+        image: volvo_xc90,
+        name: 'Volvo XC90',
+    },
+    {
+        id: 6,
+        image: audi,
+        name: 'Audi A3',
     },
 ]
-
 const bugs = [emergencyBugs, serviceBugs, infoBugs];
 
 const BugsPage = ({ theme, language }) => {
@@ -150,6 +159,10 @@ const StyledSelect = styled(Select)(({ theme }) => ({
     '& .MuiSelect-icon': {
         color: disabledEvent ? 'rgba(0, 0, 0, 0.38)' : theme.palette.secondary.main,
     },
+    '& .Mui-disabled': {
+        color: disabledEvent ? 'rgba(0, 0, 0, 0.38)' : theme.palette.secondary.main,
+        WebkitTextFillColor:  disabledEvent ? 'rgba(0, 0, 0, 0.38)' : `${theme.palette.secondary.main} !important`,
+    }
 }));
 
     return (
@@ -285,14 +298,15 @@ const StyledSelect = styled(Select)(({ theme }) => ({
                                 }
                             }}
                             disabled
+                            
                         >
-                            <MenuItem value={0}>{eventTypes[event].icon}{'    '}{eventTypes[event].name}</MenuItem>
+                            <MenuItem value={0}>{eventTypes[event].icon}{'    '}{eventTypes[event].name[language]}</MenuItem>
                         </StyledSelect>
                     </FormControl>
                 </Box>
                 <Box sx={{ marginTop: 2 }}>
                     <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label" sx={{ color: disabledEvent ? 'rgba(0, 0, 0, 0.38)' : theme.palette.secondary.main }}>
+                        <InputLabel id="demo-simple-select-label" style={{color: disabledEvent ? 'rgba(0, 0, 0, 0.38)' : undefined}} sx={{color: theme.palette.secondary.main}}>
                             {content[language].car}
                         </InputLabel>
                         <StyledSelect
@@ -308,6 +322,7 @@ const StyledSelect = styled(Select)(({ theme }) => ({
                                     }
                                 }
                             }}
+                            autoFocus
                             disabled={disabledEvent}
                         >
                             {cars.map(car => (

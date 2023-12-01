@@ -15,7 +15,7 @@ import avatar from '../../images/avatar.png'
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 
-import { request, setAuthHeader } from '../../helpers/axios_helper';
+import { request, setAuthHeader, getUserId } from '../../helpers/axios_helper';
 
 export default function SignInPage({ theme, language, setLogged }) {
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -35,8 +35,8 @@ export default function SignInPage({ theme, language, setLogged }) {
           (response) => {
               setErrorMessage('');
               setAuthHeader(response.data.access_token);
-              navigate('/');
               setLogged(true);
+              navigate('/');
           }).catch(
               (error) => {
                 setErrorMessage(content[language].incorrectLogin);

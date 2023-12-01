@@ -16,7 +16,7 @@ import {
   } from '@mui/icons-material';
 
   
-export const getPropertyValue = (obj, path) => {
+export const getPropertyValue = (obj, path, default_value='') => {
     const keys = path.split('.');
   
     return keys.reduce((acc, key) => {
@@ -26,7 +26,8 @@ export const getPropertyValue = (obj, path) => {
       } else {
         acc = acc[key];
       }
-  
+      if(acc===undefined)
+        acc=default_value;
       return acc;
     }, obj);
   };
@@ -48,12 +49,14 @@ const InfoCard = ({theme, language, title, icons, configuration, properties, jso
       more: 'Більше...',
       history: 'Історія обслуговування',
       delete: 'Видалити',
+      none: 'Немає',
     },
     en: {
       schedule: 'Schedule service',
       more: 'More...',
       history: 'Service history',
       delete: 'Delete',
+      none: 'None',
     },
   }
   
@@ -110,7 +113,7 @@ const InfoCard = ({theme, language, title, icons, configuration, properties, jso
                           {icon}
                         </ListItemIcon>
                         <ListItemText
-                          primary={getPropertyValue(json, properties[index]).toString().toLowerCase()}
+                          primary={getPropertyValue(json, properties[index], content[language].none).toString().toLowerCase()}
                           secondary={configuration[index]}
                           sx={{
                             '& .css-83ijpv-MuiTypography-root': {

@@ -9,6 +9,7 @@ import {
   Tabs, Tab,
   Checkbox,
 } from '@mui/material';
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
 
 import {
   Public,
@@ -53,6 +54,7 @@ import { useParams } from 'react-router-dom';
 import CarDialog from './components/CarDialog.js';
 import Alert from '../components/Alert.js'
 
+import { useNavigate } from "react-router-dom";
 
 const iconsTab = [<Public />, <Build />, <Sync />, <FormatListBulleted />];
 
@@ -191,6 +193,7 @@ const VinPage = ({ theme, language, IsInGarage }) => {
   const { vin } = useParams();
   const [value, setValue] = React.useState(0);
   const [favorite, setFavorite] = React.useState(IsInGarage);
+  const [carJson, setCarJson] = React.useState(json);
 
   const changeFavorite = () => {
     if (favorite)
@@ -217,86 +220,113 @@ const VinPage = ({ theme, language, IsInGarage }) => {
     setOpenDialog(false);
   };
 
+  React.useEffect(() => {
+    const vinRegex = /^[A-HJ-NPR-Z\d]{17}$/;
+    if (!vinRegex.test(vin)) {
+      navigate('/');
+    }
+    else if(carJson===null){
+      request(
+        "GET",
+        `/vin/${vin}`,
+        {}).then(
+        (response) => {
+            console.log(response);
+            setCarJson(response.data);
+        }).catch(
+        (error) => {
+            console.log(error);
+
+        }
+    );
+    }
+  });
+  const navigate = useNavigate()
+
   return (
     <div style={{ width: '100%', marginLeft: 3, marginRight: 3, }}>
-      <Grid container spacing={5} sx={{ paddingLeft: { xs: 0, md: 20 }, paddingRight: { xs: 0, md: 20 }, }}>
-        <Grid item xs={4} md={3}>
-          <img src={car} alt='car' style={{ width: '100%' }} />
-        </Grid>
-        <Grid item xs={4} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            color={theme.palette.text.main}
-          >
-            {json.make.name}{' '}{json.model.name}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="h6"
-            component="div"
-            color={theme.palette.secondary.main}
-          >
-            {vin}
-          </Typography>
-        </Grid>
-        <Grid item xs={4} container alignItems="center" justifyContent='center'>
-          <Tooltip title={favorite ? content[language].delete : content[language].add}>
-            <Checkbox
-              checked={favorite}
-              onChange={changeFavorite}
-              icon={<BookmarkBorder sx={{ color: theme.palette.secondary.main, fontSize: '3rem' }} />}
-              checkedIcon={<Bookmark sx={{ fontSize: '3rem' }} />}
-            />
-          </Tooltip>
-        </Grid>
-      </Grid>
-      <Grid container justifyContent="center">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="icon position tabs"
-          maxWidth="100%"
-        >
-          {iconsTab.map((icon, index) => (
-            <Tooltip title={content[language].titlesTab[index]}>
-              <Tab
-                icon={icon}
-                iconPosition="start"
-                label={content[language].titlesTab[index]}
-                sx={{ fontSize: { xs: 0, sm: 12, md: 18, lg: 18 }, color: theme.palette.secondary.main }}
-                {...a11yProps(index)}
-              />
-            </Tooltip>
+      {carJson &&
+        <>
+          <Grid container spacing={5} sx={{ paddingLeft: { xs: 0, md: 20 }, paddingRight: { xs: 0, md: 20 }, }}>
+            <Grid item xs={4} md={3}>
+              <img src={car} alt='car' style={{ width: '100%' }} />
+            </Grid>
+            <Grid item xs={4} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                color={theme.palette.text.main}
+              >
+                {carJson.make.name}{' '}{carJson.model.name}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                color={theme.palette.secondary.main}
+              >
+                {vin}
+              </Typography>
+            </Grid>
+            <Grid item xs={4} container alignItems="center" justifyContent='center'>
+              <Tooltip title={favorite ? content[language].delete : content[language].add}>
+                <Checkbox
+                  checked={favorite}
+                  onChange={changeFavorite}
+                  icon={<BookmarkBorder sx={{ color: theme.palette.secondary.main, fontSize: '3rem' }} />}
+                  checkedIcon={<Bookmark sx={{ fontSize: '3rem' }} />}
+                />
+              </Tooltip>
+            </Grid>
+          </Grid>
+          <Grid container justifyContent="center">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="icon position tabs"
+              maxWidth="100%"
+            >
+              {iconsTab.map((icon, index) => (
+                <Tooltip title={content[language].titlesTab[index]}>
+                  <Tab
+                    icon={icon}
+                    iconPosition="start"
+                    label={content[language].titlesTab[index]}
+                    sx={{ fontSize: { xs: 0, sm: 12, md: 18, lg: 18 }, color: theme.palette.secondary.main }}
+                    {...a11yProps(index)}
+                  />
+                </Tooltip>
+              ))}
+            </Tabs>
+          </Grid>
+
+          {content[language].titlesTab.map((title, index) => (
+
+            <Container
+              disableGutters
+              role="tabpanel"
+              id={`tabpanel-${index}`}
+              aria-labelledby={`tab-${index}`}
+              sx={{
+                display: value === index ? 'block' : 'none',
+                marginTop: -4,
+              }}
+              key={title}
+            >
+              {value === index &&
+                <InfoCard theme={theme} language={language} icons={icons[index]} configuration={content[language].configuration[index]} properties={properties[index]} json={carJson} />
+              }
+            </Container>
           ))}
-        </Tabs>
-      </Grid>
-
-      {content[language].titlesTab.map((title, index) => (
-
-        <Container
-          disableGutters
-          role="tabpanel"
-          id={`tabpanel-${index}`}
-          aria-labelledby={`tab-${index}`}
-          sx={{
-            display: value === index ? 'block' : 'none',
-            marginTop: -4,
-          }}
-          key={title}
-        >
-          {value === index &&
-            <InfoCard theme={theme} language={language} icons={icons[index]} configuration={content[language].configuration[index]} properties={properties[index]} json={json} />
-          }
-        </Container>
-      ))}
-      <CarDialog theme={theme} language={language} 
-      initialName={json.make.name + ' ' + json.model.name}
-      open={openDialog} handleClickClose={handleClickCloseDialog} setSucess={setFavorite} />
-      <Alert theme={theme} language={language}
-        title={content[language].titleAlert} text={content[language].textAlert}
-        open={openAlert} handleClose={() => setOpenAlert(false)} handleClickOK={() => setFavorite(false)} />
+          <CarDialog theme={theme} language={language}
+            initialName={carJson.make.name + ' ' + carJson.model.name}
+            open={openDialog} handleClickClose={handleClickCloseDialog} setSucess={setFavorite} />
+          <Alert theme={theme} language={language}
+            title={content[language].titleAlert} text={content[language].textAlert}
+            open={openAlert} handleClose={() => setOpenAlert(false)} handleClickOK={() => setFavorite(false)} />
+        </>
+      }
     </div>
   )
 }

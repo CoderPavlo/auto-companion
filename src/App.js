@@ -15,6 +15,9 @@ import VinPage from './pages/VinPage/VinPage';
 import BugsPage from './pages/BugsPage/BugsPage';
 import HistoryPage from './pages/HistoryPage/HistoryPage';
 
+import { getAuthToken } from './helpers/axios_helper';
+
+import car from './pages/components/images/car.png'
 function App() {
 
   
@@ -57,7 +60,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navbar logged={logged}/>}>
-            <Route index element={<StartPage />} />
+            <Route index element={getAuthToken() ? <HomePage theme={theme} language={language}/> : <StartPage />} />
             
             <Route path="garage" element={<GaragePage theme={theme} language={language}/>} />    
             <Route path="calendar" element={<CalendarPage theme={theme} language={language}/>} />  
@@ -68,7 +71,7 @@ function App() {
 
             <Route path="vehicle/:vin" element={<VinPage theme={theme} language={language} IsInGarage={false}/>}/>
             <Route path="garage/:vin" element={<VinPage theme={theme} language={language} IsInGarage={true}/>}/>
-            <Route path="history" element={<HistoryPage theme={theme} language={language}/>}/>
+            <Route path="history" element={<HistoryPage theme={theme} language={language} car={car} vin='ZPBUA1ZL9KLA00848' make='Lamborghini' model='Urus'/>}/>
           </Route>
           
           <Route path="/signIn" element={<SignInPage theme={theme} language={language} setLogged={setLogged}/>} />  

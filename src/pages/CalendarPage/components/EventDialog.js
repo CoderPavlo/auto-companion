@@ -15,6 +15,7 @@ import {
     TextField,
 } from '@mui/material'
 
+import { useNavigate } from "react-router-dom";
 
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -33,30 +34,48 @@ import car4 from "../../components/images/car4.png"
 import car5 from "../../components/images/car5.png"
 
 
+import car from "../../components/images/car.png"
+import audi from "../../components/images/audi-a3.png"
+import audiq8 from "../../components/images/audi_q8.png"
+import bmwx5 from "../../components/images/bmw_x5.png"
+import mersedes_s from "../../components/images/mercedes_s.png"
+import volvo_xc90 from "../../components/images/volvo_xc90.png"
+
+
 import en from 'dayjs/locale/en-gb';
 import uk from 'dayjs/locale/uk';
 
 import { styled } from '@mui/material/styles';
 const cars = [
     {
-        image: car1,
-        name: 'sdavaf',
+        id: 1,
+        image: car,
+        name: 'Lamborgini Urus',
     },
     {
-        image: car2,
-        name: 'sdavaf',
+        id: 2,
+        image: audiq8,
+        name: 'Audi Q8',
     },
     {
-        image: car3,
-        name: 'sdavaf',
+        id: 3,
+        image: bmwx5,
+        name: 'Bmw X5',
     },
     {
-        image: car4,
-        name: 'sdavaf',
+        id: 4,
+        image: mersedes_s,
+        name: 'Mersedes S-class',
     },
     {
-        image: car5,
-        name: 'sdavaf',
+        id: 5,
+        image: volvo_xc90,
+        name: 'Volvo XC90',
+    },
+    {
+        id: 6,
+        image: audi,
+        name: 'Audi A3',
     },
 ]
 const StyledSelect = styled(Select)(({ theme }) => ({
@@ -109,7 +128,9 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
         setEventCar(initialValue.car);
         setEventDate(initialValue.date);
         setEventDesk(initialValue.desk);
-      }, [initialValue]);
+    }, [initialValue]);
+
+    const navigate = useNavigate();
 
     return (
         <Dialog
@@ -168,7 +189,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                         >
                             {eventTypes.map(eventType => (
 
-                                <MenuItem key={eventType.type} value={eventType.type}>{eventType.icon}{'    '}{eventType.name}</MenuItem>
+                                <MenuItem key={eventType.type} value={eventType.type}>{eventType.icon}{'    '}{eventType.name[language]}</MenuItem>
                             ))}
                         </StyledSelect>
                     </FormControl>
@@ -180,7 +201,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                             {content[language].car}
                         </InputLabel>
                         <StyledSelect
-                        autoFocus
+                            autoFocus
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={eventCar}
@@ -196,7 +217,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                         >
                             {cars.map(car => (
 
-                                <MenuItem key={car.name} value={car}><img src={car.image} alt={car.name} style={{ width: '36px' }} />{'            '}{car.name}</MenuItem>
+                                <MenuItem key={car.name} value={car.id}><img src={car.image} alt={car.name} style={{ width: '36px' }} />{'            '}{car.name}</MenuItem>
                             ))}
                         </StyledSelect>
                     </FormControl>
@@ -273,10 +294,11 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                 />
             </DialogContent>
             <DialogActions>
-
-                <Button autoFocus onClick={handleClickClose}>
-                    {content[language].do}
-                </Button>
+                {initialValue.type &&
+                    <Button autoFocus onClick={()=>navigate('/history')}>
+                        {content[language].do}
+                    </Button>
+                }
                 <Button autoFocus onClick={handleClickClose}>
                     {content[language].save}
                 </Button>

@@ -29,6 +29,8 @@ import { useNavigate } from "react-router-dom";
 
 import avatar from "../../images/avatar.png"
 import DrawerHeader from './DrawerHeader';
+import { getAuthToken } from '../../helpers/axios_helper';
+
 
 const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
   const theme = useTheme();
@@ -103,7 +105,7 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       </Box>
       <Divider />
       {
-        logged &&
+        getAuthToken() &&
       <List>
         <ListItemStyled key={0} click={() => navigate('/home')} primary={userData.name}>
           <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />

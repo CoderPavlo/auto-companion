@@ -6,7 +6,15 @@ import car2 from "./../components/images/car2.png"
 import car3 from "./../components/images/car3.png"
 import car4 from "./../components/images/car4.png"
 import car5 from "./../components/images/car5.png"
+
+import audi from "./../components/images/audi-a3.png"
+import audiq8 from "./../components/images/audi_q8.png"
+import bmwx5 from "./../components/images/bmw_x5.png"
+import mersedes_s from "./../components/images/mercedes_s.png"
+import volvo_xc90 from "./../components/images/volvo_xc90.png"
+
 import { json } from './car.js'
+import { json2 } from './car2.js'
 import {
   Box, Container, InputLabel, MenuItem, FormControl, Select, Typography, Grid,
   Card,
@@ -58,48 +66,38 @@ const cars = [
     json: json,
   },
   {
-    src: car1,
-    title: 'Bmw dsc',
+    src: audiq8,
+    title: 'Audi Q8',
     json: json,
   },
   {
-    src: car2,
-    title: 'Bmw dsc',
+    src: bmwx5,
+    title: 'Bmw X5',
     json: json,
   },
   {
-    src: car3,
-    title: 'Bmw dsc',
+    src: mersedes_s,
+    title: 'Mersedes S-class',
     json: json,
   },
   {
-    src: car4,
-    title: 'Bmw dsc',
+    src: volvo_xc90,
+    title: 'Volvo XC90',
     json: json,
   },
   {
-    src: car5,
-    title: 'Bmw dsc',
+    src: audi,
+    title: 'Audi A3',
+    json: json2,
+  },
+  {
+    src: audiq8,
+    title: 'Audi Q8',
     json: json,
   },
   {
-    src: car1,
-    title: 'Bmw dsc',
-    json: json,
-  },
-  {
-    src: car2,
-    title: 'Bmw dsc',
-    json: json,
-  },
-  {
-    src: car3,
-    title: 'Bmw dsc',
-    json: json,
-  },
-  {
-    src: car4,
-    title: 'Bmw dsc',
+    src: bmwx5,
+    title: 'Bmw X5',
     json: json,
   },
   {
@@ -124,11 +122,6 @@ const cars = [
   },
   {
     src: car4,
-    title: 'Bmw dsc',
-    json: json,
-  },
-  {
-    src: car5,
     title: 'Bmw dsc',
     json: json,
   },
