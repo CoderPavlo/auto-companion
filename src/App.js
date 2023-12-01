@@ -13,6 +13,7 @@ import CalendarPage from './pages/CalendarPage/CalendarPage';
 import HomePage from './pages/HomePage/HomePage';
 import VinPage from './pages/VinPage/VinPage';
 import BugsPage from './pages/BugsPage/BugsPage';
+import UserProfile from './pages/UserProfile/UserProfile';
 import HistoryPage from './pages/HistoryPage/HistoryPage';
 
 import { getAuthToken } from './helpers/axios_helper';

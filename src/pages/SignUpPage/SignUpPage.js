@@ -63,7 +63,6 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                         setAuthHeader(null);
                     }
                 );
-
     };
 
     const handleSubmitAvatar = (event) => {
