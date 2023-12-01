@@ -31,11 +31,14 @@ import {
 } from '@mui/icons-material';
 import { eventTypes } from '../components/eventTypes';
 
-import car1 from "../components/images/car1.png"
-import car2 from "../components/images/car2.png"
-import car3 from "../components/images/car3.png"
-import car4 from "../components/images/car4.png"
-import car5 from "../components/images/car5.png"
+
+import car from "../components/images/car.png"
+import audi from "../components/images/audi-a3.png"
+import audiq8 from "../components/images/audi_q8.png"
+import bmwx5 from "../components/images/bmw_x5.png"
+import mersedes_s from "../components/images/mercedes_s.png"
+import volvo_xc90 from "../components/images/volvo_xc90.png"
+
 import EventDialog from './components/EventDialog';
 
 
@@ -51,35 +54,35 @@ function fakeFetch(date, { signal }) {
         {
           day: 25,
           type: 'oil_change',
-          desk: 'Заміна масла',
-          carImage: car1,
+          desk: 'Oil change',
+          carImage: car,
         },
 
         {
           day: 25,
           type: 'belt_change',
-          desk: 'Заміна ременів',
-          carImage: car3,
+          desk: 'Replacing belts',
+          carImage: mersedes_s,
         },
 
         {
           day: 25,
           type: 'battery_replacement',
-          desk: 'Планова заміна акумулятора',
-          carImage: car5,
+          desk: 'Scheduled battery replacement',
+          carImage: volvo_xc90,
         },
 
         {
           day: 30,
-          type: 'ac_refill',
-          desk: 'Заправка кондиціонера',
-          carImage: car4,
+          type: 'filter_change',
+          desk: 'Replace filters',
+          carImage: bmwx5,
         },
         {
           day: 2,
           type: 'routine_maintenance',
-          desk: 'Планове технічне обслуговування',
-          carImage: car2,
+          desk: 'Scheduled maintenance',
+          carImage: volvo_xc90,
         },
       ];
 
@@ -418,12 +421,9 @@ const CalendarPage = ({ theme, language }) => {
                                   onClick={() => {
                                     setInitialEvent({
                                       type: item.type,
-                                      date: item.date,
+                                      date: dayjs('02-12-2023'),
                                       desk: item.desk,
-                                      car: {
-                                        image: item.carImage,
-                                        name: 'sdavaf',
-                                      },
+                                      car: 1,
                                     });
                                     handleClickOpenDialog(false);
                                   }}
@@ -467,10 +467,7 @@ const CalendarPage = ({ theme, language }) => {
                               type: item.type,
                               date: item.date,
                               desk: item.desk,
-                              car: {
-                                image: item.carImage,
-                                name: 'sdavaf',
-                              },
+                              car: 1,
                             });
                             handleClickOpenDialog(false);
                           }}>

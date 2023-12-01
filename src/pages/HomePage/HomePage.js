@@ -18,28 +18,45 @@ import engine from './images/engine.png'
 import filters from './images/filters.png'
 import suspension from './images/suspension.png'
 
+import car from "../components/images/car.png"
+import audi from "../components/images/audi-a3.png"
+import audiq8 from "../components/images/audi_q8.png"
+import bmwx5 from "../components/images/bmw_x5.png"
+import mersedes_s from "../components/images/mercedes_s.png"
+import volvo_xc90 from "../components/images/volvo_xc90.png"
+
 const cars = [
     {
-        src: car1,
-        title: 'Bmw dsc',
+        id: 1,
+        src: car,
+        title: 'Lamborgini Urus',
     },
     {
-        src: car2,
-        title: 'Bmw dsc',
+        id: 2,
+        src: audiq8,
+        title: 'Audi Q8',
     },
     {
-        src: car3,
-        title: 'Bmw dsc',
+        id: 3,
+        src: bmwx5,
+        title: 'Bmw X5',
     },
     {
-        src: car4,
-        title: 'Bmw dsc',
+        id: 4,
+        src: mersedes_s,
+        title: 'Mersedes S-class',
     },
     {
-        src: car5,
-        title: 'Bmw dsc',
-    },
-];
+        id: 5,
+        src: volvo_xc90,
+        title: 'Volvo XC90',
+     },
+    // {
+    //     id: 6,
+    //     src: audi,
+    //     title: 'Audi A3',
+    // },
+]
 
 const parts = [brake, engine, filters, suspension];
 
@@ -51,39 +68,39 @@ function fakeFetch(date, { signal }) {
             //отримуємо події з бази даних за місяцем
             const events = [
                 {
-                    day: 25,
-                    type: 'oil_change',
-                    desk: 'Заміна масла',
-                    carImage: car1,
+                  day: 25,
+                  type: 'oil_change',
+                  desk: 'Oil change',
+                  carImage: car,
                 },
-
+        
                 {
-                    day: 25,
-                    type: 'belt_change',
-                    desk: 'Заміна ременів',
-                    carImage: car3,
+                  day: 25,
+                  type: 'belt_change',
+                  desk: 'Replacing belts',
+                  carImage: mersedes_s,
                 },
-
+        
                 {
-                    day: 25,
-                    type: 'battery_replacement',
-                    desk: 'Планова заміна акумулятора',
-                    carImage: car5,
+                  day: 25,
+                  type: 'battery_replacement',
+                  desk: 'Scheduled battery replacement',
+                  carImage: volvo_xc90,
                 },
-
+        
                 {
-                    day: 30,
-                    type: 'ac_refill',
-                    desk: 'Заправка кондиціонера',
-                    carImage: car4,
+                  day: 30,
+                  type: 'filter_change',
+                  desk: 'Replace filters',
+                  carImage: bmwx5,
                 },
                 {
-                    day: 2,
-                    type: 'routine_maintenance',
-                    desk: 'Планове технічне обслуговування',
-                    carImage: car2,
+                  day: 2,
+                  type: 'routine_maintenance',
+                  desk: 'Scheduled maintenance',
+                  carImage: volvo_xc90,
                 },
-            ];
+              ];
 
 
             resolve({ events });

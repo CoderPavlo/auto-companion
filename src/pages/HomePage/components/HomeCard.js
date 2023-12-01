@@ -6,7 +6,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { Button, Card, CardContent, CardActions } from "@mui/material";
 
 const HomeCard = ({theme, title, navigateTo, children, marginTop=0}) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     return (
         <Card sx={{ background: theme.palette.background.default, marginTop: {marginTop}}}>
             <CardActions>
