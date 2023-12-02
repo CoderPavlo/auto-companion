@@ -14,7 +14,11 @@ import imageCarRegister from "../image/CarRegister.png";
 import imageCarKey from "../image/CarKey.png";
 import imageGarage from "../image/garage.png";
 
+import { useNavigate } from "react-router-dom";
+
+
 const CardsBlock = ({ theme, language }) => {
+  const navigate = useNavigate();
     var images = [imageCarKey, imageGarage, imageCarRegister]
   const content = {
     uk: {
@@ -105,6 +109,7 @@ const CardsBlock = ({ theme, language }) => {
                   variant={variant[index][i]}
                   size="small"
                   sx={buttonStyles[variant[index][i]]}
+                  onClick={()=>navigate('/pricing')}
                 >
                   {action}
                 </Button>

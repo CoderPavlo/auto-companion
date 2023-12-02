@@ -25,6 +25,8 @@ import bmwx5 from "../components/images/bmw_x5.png"
 import mersedes_s from "../components/images/mercedes_s.png"
 import volvo_xc90 from "../components/images/volvo_xc90.png"
 
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
+
 const cars = [
     {
         id: 1,
@@ -50,7 +52,7 @@ const cars = [
         id: 5,
         src: volvo_xc90,
         title: 'Volvo XC90',
-     },
+    },
     // {
     //     id: 6,
     //     src: audi,
@@ -68,39 +70,39 @@ function fakeFetch(date, { signal }) {
             //отримуємо події з бази даних за місяцем
             const events = [
                 {
-                  day: 25,
-                  type: 'oil_change',
-                  desk: 'Oil change',
-                  carImage: car,
+                    day: 25,
+                    type: 'oil_change',
+                    desk: 'Oil change',
+                    carImage: car,
                 },
-        
+
                 {
-                  day: 25,
-                  type: 'belt_change',
-                  desk: 'Replacing belts',
-                  carImage: mersedes_s,
+                    day: 25,
+                    type: 'belt_change',
+                    desk: 'Replacing belts',
+                    carImage: mersedes_s,
                 },
-        
+
                 {
-                  day: 25,
-                  type: 'battery_replacement',
-                  desk: 'Scheduled battery replacement',
-                  carImage: volvo_xc90,
+                    day: 25,
+                    type: 'battery_replacement',
+                    desk: 'Scheduled battery replacement',
+                    carImage: volvo_xc90,
                 },
-        
+
                 {
-                  day: 30,
-                  type: 'filter_change',
-                  desk: 'Replace filters',
-                  carImage: bmwx5,
+                    day: 30,
+                    type: 'filter_change',
+                    desk: 'Replace filters',
+                    carImage: bmwx5,
                 },
                 {
-                  day: 2,
-                  type: 'routine_maintenance',
-                  desk: 'Scheduled maintenance',
-                  carImage: volvo_xc90,
+                    day: 2,
+                    type: 'routine_maintenance',
+                    desk: 'Scheduled maintenance',
+                    carImage: volvo_xc90,
                 },
-              ];
+            ];
 
 
             resolve({ events });
@@ -114,7 +116,12 @@ function fakeFetch(date, { signal }) {
 }
 
 
+
+
+
 const HomePage = ({ theme, language }) => {
+
+
     const currentDate = new Date();
     const getFormattedDate = (locale) => {
         return currentDate.toLocaleDateString(locale, {
@@ -230,9 +237,9 @@ const HomePage = ({ theme, language }) => {
                         </Stack>
                     </HomeCard>
 
-                    
+
                     <HomeCard theme={theme} title={content[language].prom} navigateTo={'promotion'} marginTop={10}>
-                    <Stack direction="row" spacing={2}>
+                        <Stack direction="row" spacing={2}>
                             {parts.map((part, index) => (
                                 <Card key={index} sx={{ background: theme.palette.background.default, width: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
 
@@ -254,7 +261,7 @@ const HomePage = ({ theme, language }) => {
                     </HomeCard>
                 </Grid>
 
-                <Grid item sx={{ width: { xs: '100%', md: '450px', display: 'flex', flexDirection: 'column', justifyContent:'center'} }}>
+                <Grid item sx={{ width: { xs: '100%', md: '450px', display: 'flex', flexDirection: 'column', justifyContent: 'center' } }}>
                     <HomeCard theme={theme} title={content[language].cal} navigateTo={'calendar'}>
                         <MiniCalendar theme={theme} language={language} value={calendarValue} setValue={setCalendarValue}
                             handleMonthChange={handleMonthChange} highlightedDays={events} isLoading={isLoading} size='large' />

@@ -68,22 +68,15 @@ const SignUpPage = ({ theme, language, setLogged }) => {
     const handleSubmitAvatar = (event) => {
         event.preventDefault();
         if (selectedImage) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const byteArray = new Uint8Array(event.target.result);
-                
-                request("POST", `/users/${getUserId()}/uploadImage`, {
-                    image: selectedImage,
-                  })
-                    .then((response) => {
-                      console.log(response);
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    });
-            }
-
-            reader.readAsArrayBuffer(selectedImage);
+            request("POST", `/users/${getUserId()}/uploadImage`, {
+                image: selectedImage,
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
         navigate('/');
     }
@@ -241,7 +234,7 @@ const SignUpPage = ({ theme, language, setLogged }) => {
                     }
                     {!register &&
 
-                        <Box width= '100%' component="form" onSubmit={handleSubmitAvatar} sx={{ mt: 3 }}>
+                        <Box width='100%' component="form" onSubmit={handleSubmitAvatar} sx={{ mt: 3 }}>
                             <ImageInput language={language} theme={theme} selectedImage={selectedImage} setSelectedImage={setSelectedImage} />
 
                             <Button

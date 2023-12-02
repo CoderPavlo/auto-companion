@@ -28,7 +28,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from '../context/LanguageContext';
 
-import { getAuthToken } from '../helpers/axios_helper';
+import { getUserId, request, setAuthHeader, IsLogged } from '../helpers/axios_helper';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -70,7 +70,96 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+function getNotifications(email_or_id_user){
+  request(
+    "GET",
+    "/notification",
+    {
+      email_or_id_user: email_or_id_user,
+    }).then(
+      (response) => {
+        console.log(response.data);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
+function addNotification(notification){
+  request(
+    "POST",
+    "/notifications",
+    {
+      email_or_id_user: notification.email_or_id_user,
+      type: notification.type,
+      desc: notification.desc,
+      id_event: notification.id_event,
+      read: false,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
+function deleteNotifications(){
+  request(
+    "DELETE",
+    "/notifications",
+    {
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+function setReadTrue(id){
+  request(
+    "PUT",
+    "/notifications",
+    {
+      id: id,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
 export default function Navbar({ logged }) {
+  React.useEffect(() => {
+    getNotifications();
+    addNotification({
+      email_or_id_user: 1,
+      type: 'event',
+      desc: 'dcdsdc',
+      id_event: 1,
+    });
+    deleteNotifications();
+    setReadTrue(1);
+  });
   const theme = useTheme();
 
   const { language, setLanguage } = useLanguage();
@@ -123,10 +212,11 @@ export default function Navbar({ logged }) {
     if (event.key === 'Enter') {
       const vin = event.target.value;
       const vinRegex = /^[A-HJ-NPR-Z\d]{17}$/;
-
+      event.target.value='';
       if (vinRegex.test(vin)) {
-        navigate(`/vehicle/${event.target.value}`);
+        navigate(`/vehicle/${vin}`);
       } else {
+
         setOpenAlert(true);
       }
     }
@@ -159,7 +249,7 @@ export default function Navbar({ logged }) {
           </Box>
           <Box >
             {
-              getAuthToken()===null &&
+              !IsLogged() &&
               <Button variant="outlined" startIcon={<LoginIcon />} onClick={() => navigate('/signIn')}
                 sx={{
                   fontSize: {
@@ -172,7 +262,7 @@ export default function Navbar({ logged }) {
               </Button>
             }
             {
-              getAuthToken() &&
+              IsLogged() &&
               <IconButton
                 size="large"
                 aria-label="show 17 new notifications"

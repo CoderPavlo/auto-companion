@@ -26,6 +26,7 @@ import {
     Close,
 
 } from '@mui/icons-material';
+import dayjs from 'dayjs';
 
 import car1 from "../../components/images/car1.png"
 import car2 from "../../components/images/car2.png"
@@ -46,6 +47,8 @@ import en from 'dayjs/locale/en-gb';
 import uk from 'dayjs/locale/uk';
 
 import { styled } from '@mui/material/styles';
+import { getUserId, request, setAuthHeader } from '../../../helpers/axios_helper';
+
 const cars = [
     {
         id: 1,
@@ -116,21 +119,107 @@ const content = {
     }
 }
 
-const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) => {
+function addEvent(event) {
+    request(
+      "POST",
+      "/events",
+      {
+        email_or_id_user: event.email_or_id_user,
+        type: event.type,
+        desc: event.desc,
+        vin: event.vin,
+        date: event.date
+      }).then(
+        (response) => {
+          console.log(response);
+        }).catch(
+          (error) => {
+            // if (error.response.status === 401) {
+            //     setAuthHeader(null);
+            // }
+            console.log(error);
+          }
+        );
+  }
 
-    const [eventType, setEventType] = React.useState(initialValue.type);
-    const [eventCar, setEventCar] = React.useState(initialValue.car);
-    const [eventDate, setEventDate] = React.useState(initialValue.date);
-    const [eventDesk, setEventDesk] = React.useState(initialValue.desk);
+  function deleteEvent(idEvent) {
+    request(
+      "DELETE",
+      "/events",
+      {
+        id: idEvent,
+      }).then(
+        (response) => {
+          console.log(response);
+        }).catch(
+          (error) => {
+            // if (error.response.status === 401) {
+            //     setAuthHeader(null);
+            // }
+            console.log(error);
+          }
+        );
+  }
+  function changeEvent(idEvent, event) {
+    request(
+      "PUT",
+      "/events",
+      {
+        id: idEvent,
+        email_or_id_user: event.email_or_id_user,
+        type: event.type,
+        desc: event.desc,
+        vin: event.vin,
+        date: event.date
+      }).then(
+        (response) => {
+          console.log(response);
+        }).catch(
+          (error) => {
+            // if (error.response.status === 401) {
+            //     setAuthHeader(null);
+            // }
+            console.log(error);
+          }
+        );
+  }
+
+const EventDialog = ({ theme, language, open, isNew, handleClickClose, type, car, date, desk, setDate, setType, setCar, setDesk}) => {
+
+    // const [eventType, setEventType] = React.useState(initialValue.type);
+    // const [eventCar, setEventCar] = React.useState(initialValue.car);
+    // const [eventDate, setEventDate] = React.useState(initialValue.date);
+    // const [eventDesk, setEventDesk] = React.useState(initialValue.desk);
+
+    // React.useEffect(() => {
+    //     setEventType(initialValue.type);
+    //     setEventCar(initialValue.car);
+    //     setEventDate(initialValue.date);
+    //     setEventDesk(initialValue.desk);
+    // }, [initialValue]);
 
     React.useEffect(() => {
-        setEventType(initialValue.type);
-        setEventCar(initialValue.car);
-        setEventDate(initialValue.date);
-        setEventDesk(initialValue.desk);
-    }, [initialValue]);
+
+        addEvent({
+            email_or_id_user: getUserId(),
+            type: 'oil_change',
+            desc: 'oil change',
+            vin: 'dsgadhh',
+            date: dayjs(),
+        });
+        deleteEvent(1);
+        changeEvent({
+            idEvent: 1,
+            email_or_id_user: getUserId(),
+            type: 'oil_change',
+            desc: 'oil change',
+            vin: 'dsgadhh',
+            date: dayjs(),
+        });
+      });
 
     const navigate = useNavigate();
+
 
     return (
         <Dialog
@@ -153,7 +242,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
 
         >
             <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                {initialValue.type ? content[language].editEvent : content[language].addEvent}
+                {!isNew ? content[language].editEvent : content[language].addEvent}
             </DialogTitle>
             <IconButton
                 aria-label="close"
@@ -176,9 +265,9 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                         <StyledSelect
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={eventType}
+                            value={type}
                             label={content[language].event}
-                            onChange={(event) => setEventType(event.target.value)}
+                            onChange={(event) => setType(event.target.value)}
                             MenuProps={{
                                 PaperProps: {
                                     sx: {
@@ -204,9 +293,9 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                             autoFocus
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={eventCar}
+                            value={car}
                             label={content[language].car}
-                            onChange={(event) => setEventCar(event.target.value)}
+                            onChange={(event) => setCar(event.target.value)}
                             MenuProps={{
                                 PaperProps: {
                                     sx: {
@@ -226,7 +315,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                 <Box sx={{ marginTop: 1, width: '100%' }}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={language === 'uk' ? uk : en}>
                         <DemoContainer components={['DatePicker']} >
-                            <DatePicker label={content[language].date} value={eventDate} onChange={(newValue) => setEventDate(newValue)}
+                            <DatePicker label={content[language].date} value={date} onChange={(newValue) => setDate(newValue)}
                                 sx={{
                                     width: '100%',
 
@@ -271,8 +360,8 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                     id="outlined-textarea"
                     label={content[language].desk}
                     multiline
-                    value={eventDesk}
-                    onChange={(event) => setEventDesk(event.target.value)}
+                    value={desk}
+                    onChange={(event) => setDesk(event.target.value)}
                     rows={4}
                     sx={{
                         marginTop: 2,
@@ -294,7 +383,7 @@ const EventDialog = ({ theme, language, open, initialValue, handleClickClose }) 
                 />
             </DialogContent>
             <DialogActions>
-                {initialValue.type &&
+                {!isNew &&
                     <Button autoFocus onClick={()=>navigate('/history')}>
                         {content[language].do}
                     </Button>

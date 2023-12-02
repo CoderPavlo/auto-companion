@@ -15,11 +15,113 @@ import PaymentMethods from './components/PaymentMethods';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import avatar from './img/holder.jpg';
 import { useLanguage } from "../../context/LanguageContext";
+import avatar from "../../images/avatar.png"
+
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
+function getUser(id){
+  request(
+    "GET",
+    "/users",
+    {
+      id: id,
+    }).then(
+      (response) => {
+        console.log(response.data);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
+function changeEmail(new_email){
+  request(
+    "PUT",
+    "/users",
+    {
+      new_email: new_email,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
 
 
+function changePassword(new_password){
+  request(
+    "PUT",
+    "/users",
+    {
+      new_password: new_password,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
+function changeData(name, lastname){
+  request(
+    "PUT",
+    "/users",
+    {
+      name: name,
+      lastname: lastname,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+function changeImage(image){
+  request(
+    "PUT",
+    "/users",
+    {
+      image: image
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
 const UserProfile = ( ) => {
+  React.useEffect(() => {
+    getUser(1);
+    changeEmail('sadav@gmail.com');
+    changePassword('pasdsdc');
+    changeData('savds', 'scvfdvd');
+    changeImage(avatar);
+  });
   const { language } = useLanguage();
   const theme = useTheme(); // Use the useTheme hook to access the current theme
   const [userAvatar, setUserAvatar] = useState(null);
@@ -64,7 +166,11 @@ const UserProfile = ( ) => {
     handleMenuClose();
   };
   
-  const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {};
+  const userInfo = {
+    firstName: 'Pavlo',
+    lastName: 'Herasymchuk',
+    email: 'pavlo@gmail.com',
+  };
   return (
     <Container maxWidth="100%" sx={{ background: theme.palette.background.default }}>
     <Grid container spacing={2}>
@@ -76,7 +182,7 @@ const UserProfile = ( ) => {
             <Avatar
               alt="User Avatar"
               src={userAvatar || avatar}
-              sx={{ width: 250, height: 250, my: 2 }}
+              sx={{ width: 250, height: 250, my: 2, border: `1px solid ${theme.palette.secondary.main}` }}
               imgProps={{ onError: (e) => (e.target.src = avatar) }}
               onClick={handleMenuOpen}
             />

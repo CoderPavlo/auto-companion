@@ -17,15 +17,8 @@ import { json } from './car.js'
 import { json2 } from './car2.js'
 import {
   Box, Container, InputLabel, MenuItem, FormControl, Select, Typography, Grid,
-  Card,
-  CardContent,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Menu
 } from '@mui/material';
+
 
 import {
   TimeToLeave,
@@ -39,7 +32,10 @@ import {
   Palette,
   AttachMoney
 } from '@mui/icons-material';
-import InfoCard, {getPropertyValue} from '../components/InfoCard.js';
+import InfoCard, { getPropertyValue } from '../components/InfoCard.js';
+
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
+
 
 const content = {
   uk: {
@@ -59,7 +55,7 @@ const icons = [<TimeToLeave />, <Sell />, <Schedule />, <LocalGasStation />, <Ti
 const properties = ['make.name', 'model.name', 'years[0].year', 'engine.type', 'engine.horsepower', 'transmission.transmissionType', 'transmission.numberOfSpeeds', 'drivenWheels', 'colors[1].options[0].name', 'price.baseMsrp'];
 
 const cars = [
-  
+
   {
     src: car,
     title: 'Lamborgini Urus',
@@ -127,7 +123,53 @@ const cars = [
   },
 ];
 
+function getCars(email_or_id_user) {
+  request(
+    "GET",
+    "/cars",
+    {
+      email_or_id_user: email_or_id_user,
+    }).then(
+      (response) => {
+        console.log(response.data);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+function deleteCar(id) {
+  request(
+    "DELETE",
+    "/cars/delete",
+    {
+      id: id,
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
 const GaragePage = ({ theme, language }) => {
+
+  React.useEffect(() => {
+
+    getCars('pavlo@gmail.com');
+    //or
+    getCars(getUserId());
+    deleteCar(1);
+  });
+
   const [selectedCar, setSelectedCar] = React.useState(0);
   const [brand, setBrand] = React.useState('');
   const [makes, setMakes] = React.useState(['All']);
@@ -216,7 +258,7 @@ const GaragePage = ({ theme, language }) => {
       <Grid container spacing={0} sx={{ marginBlock: 2 }}>
 
         <Grid item xs={12} md={6} >
-          <InfoCard theme={theme} language={language} title={cars[selectedCar].title} icons={icons} configuration={content[language].configuration} properties={properties} json={filteredCars[selectedCar].json} type='control'/>
+          <InfoCard theme={theme} language={language} title={cars[selectedCar].title} icons={icons} configuration={content[language].configuration} properties={properties} json={filteredCars[selectedCar].json} type='control' />
         </Grid>
 
         <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'flex' }, position: 'relative', marginBlock: 2, paddingBlock: 5 }}>

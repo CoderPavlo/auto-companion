@@ -22,6 +22,9 @@ import {
 
 } from "@mui/icons-material"
 
+
+import { getUserId, request, setAuthHeader, IsLogged } from '../../helpers/axios_helper';
+
 import { useTheme } from "@mui/material/styles";
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -29,12 +32,11 @@ import { useNavigate } from "react-router-dom";
 
 import avatar from "../../images/avatar.png"
 import DrawerHeader from './DrawerHeader';
-import { getAuthToken } from '../../helpers/axios_helper';
 
 
-const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
+const NavigateDrawer = ({ open, handleDrawerOpen }) => {
   const theme = useTheme();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
 
   const navigate = useNavigate()
   const drawerWidth = 280;
@@ -54,7 +56,8 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
   ]
 
   const userData = {
-    name: 'Pavlo',
+    name: 'Pavlo Herasymchuk',
+    email: 'pavlo@gmail.com',
     avatar: avatar
   }
 
@@ -68,14 +71,19 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
 
   }
 
-  const ListItemStyled = ({ click, style, primary, children }) => {
+  const ListItemStyled = ({ click, style, primary, children, secondary }) => {
     return (
       <ListItem key={primary} disablePadding sx={{ height: '48px' }}>
         <ListItemButton onClick={click}>
           <ListItemIcon style={style}>
             {children}
           </ListItemIcon>
-          <ListItemText primary={primary} style={style} />
+          <ListItemText primary={primary} style={style} secondary={secondary}
+            sx={{
+              '& .css-83ijpv-MuiTypography-root': {
+                color: theme.palette.secondary.main
+              }
+            }} />
         </ListItemButton>
       </ListItem>
     )
@@ -90,10 +98,10 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       <Divider />
       <List>
         {
-          
+
           icons.map((icon, index) => (
-            <ListItemStyled key={index} click={() => navigate('/'+links[index])}
-              style={{ color: links[index]=== firstPathSegment ? theme.palette.primary.main : theme.palette.secondary.main }}
+            <ListItemStyled key={index} click={() => navigate('/' + links[index])}
+              style={{ color: links[index] === firstPathSegment ? theme.palette.primary.main : theme.palette.secondary.main }}
               primary={labels[language][index]}>
               {icon}
             </ListItemStyled>
@@ -105,19 +113,19 @@ const NavigateDrawer = ({ open, handleDrawerOpen, logged }) => {
       </Box>
       <Divider />
       {
-        getAuthToken() &&
-      <List>
-        <ListItemStyled key={0} click={() => navigate('/home')} primary={userData.name}>
-          <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
-        </ListItemStyled>
+        IsLogged() &&
+        <List>
+          <ListItemStyled key={0} click={() => navigate('/profile')} primary={userData.name} secondary={userData.email}>
+            <Avatar alt={userData.name} src={userData.avatar} sx={{ width: '30px', height: '30px' }} />
+          </ListItemStyled>
 
-        <ListItemStyled key={1} click={() => { }}
-          style={{ color: theme.palette.error.main }}
-          primary={content[language].exit}>
-          <Logout />
-        </ListItemStyled>
-      </List>
-}
+          <ListItemStyled key={1} click={() => {setAuthHeader(null); navigate('/')}}
+            style={{ color: theme.palette.error.main }}
+            primary={content[language].exit}>
+            <Logout />
+          </ListItemStyled>
+        </List>
+      }
     </div>
   );
 

@@ -14,6 +14,7 @@ import {
     Button,
 } from '@mui/material';
 
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
 
 import ExpandLess from '@mui/icons-material/ExpandLess';
 
@@ -22,8 +23,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 
 import { eventTypes } from '../components/eventTypes';
 import Editor from './components/Editor';
-
-
+import { data } from './editorContent';
+import dayjs from 'dayjs';
 function getIconByType(type) {
     let foundIcon = null;
 
@@ -99,7 +100,82 @@ const content = {
     },
 }
 
+function addNote(note) {
+    request(
+        "POST",
+        "/history",
+        {
+            type: note.type,
+            desc: note.desc,
+            date: note.date,
+            data: note.data,
+            vin: note.vin,
+        }).then(
+            (response) => {
+                console.log(response);
+            }).catch(
+                (error) => {
+                    // if (error.response.status === 401) {
+                    //     setAuthHeader(null);
+                    // }
+                    console.log(error);
+                }
+            );
+}
+
+function deleteNote(id) {
+    request(
+        "DELETE",
+        "/history",
+        {
+            id: id,
+        }).then(
+            (response) => {
+                console.log(response);
+            }).catch(
+                (error) => {
+                    // if (error.response.status === 401) {
+                    //     setAuthHeader(null);
+                    // }
+                    console.log(error);
+                }
+            );
+}
+
+function getHistory(vin) {
+    request(
+        "GET",
+        "/history",
+        {
+            vin: vin,
+        }).then(
+            (response) => {
+                console.log(response.data);
+            }).catch(
+                (error) => {
+                    // if (error.response.status === 401) {
+                    //     setAuthHeader(null);
+                    // }
+                    console.log(error);
+                }
+            );
+}
+
 const HistoryPage = ({ theme, language, car, vin, make, model }) => {
+
+    React.useEffect(() => {
+        addNote({
+            type: 'oil_change',
+            desc: 'oil change',
+            vin: 'ZPBUA1ZL9KLA00848',
+            date: dayjs(),
+            data: data,
+        });
+
+        getHistory('ZPBUA1ZL9KLA00848');
+        deleteNote(1);
+    });
+
     const initialStateArray = Array.from({ length: events.length }, () => false);
     const [open, setOpen] = React.useState(initialStateArray);
     const [edit, setEdit] = React.useState(true);

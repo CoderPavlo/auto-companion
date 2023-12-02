@@ -4,6 +4,13 @@ import axios from 'axios';
 export const getAuthToken = () => {
     return window.localStorage.getItem('auth_token');
 };
+export const IsLogged = () => {
+    const token = getAuthToken();
+    if(token===null || token===undefined || token==="null")
+        return false;
+    else
+        return true;
+}
 
 export const setAuthHeader = (token) => {
     window.localStorage.setItem('auth_token', token);

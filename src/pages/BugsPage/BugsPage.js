@@ -73,7 +73,7 @@ const content = {
          car: 'Car',
          date: 'Date',
          desk: 'Description',
-         schedule: 'Schedule',
+         shedule: 'Schedule',
     }
 }
 

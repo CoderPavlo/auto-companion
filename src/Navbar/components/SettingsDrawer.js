@@ -30,8 +30,12 @@ const SettingsDrawer = ({ open, handleSettingsOpen }) => {
   const [selectTheme, setSelectTheme] = React.useState("dark");
 
   const handleChangeLang = (event, newLang) => {
-    setLang(newLang);
-    setLanguage(newLang);
+    if(newLang!=='uk' && newLang!=='en')
+      return;
+    if(lang!==newLang){
+      setLang(newLang);
+      setLanguage(newLang);
+    }
   };
 
   const handleChangeTheme = (event, newTheme) => {

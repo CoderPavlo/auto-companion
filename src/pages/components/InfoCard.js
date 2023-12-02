@@ -16,6 +16,8 @@ import {
   } from '@mui/icons-material';
 
   
+import { useNavigate } from "react-router-dom";
+  
 export const getPropertyValue = (obj, path, default_value='') => {
     const keys = path.split('.');
   
@@ -34,6 +36,7 @@ export const getPropertyValue = (obj, path, default_value='') => {
 
   
 const InfoCard = ({theme, language, title, icons, configuration, properties, json, type}) => {
+  const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -52,7 +55,7 @@ const InfoCard = ({theme, language, title, icons, configuration, properties, jso
       none: 'Немає',
     },
     en: {
-      schedule: 'Schedule service',
+      shedule: 'Schedule service',
       more: 'More...',
       history: 'Service history',
       delete: 'Delete',
@@ -95,9 +98,9 @@ const InfoCard = ({theme, language, title, icons, configuration, properties, jso
                     }
                   }}
                 >
-                  <MenuItem onClick={handleClose}>{content[language].more}</MenuItem>
+                  <MenuItem onClick={handleClose} >{content[language].more}</MenuItem>
+                  <MenuItem onClick={()=>{navigate('/history'); handleClose()}}>{content[language].history}</MenuItem>
                   <MenuItem onClick={handleClose}>{content[language].shedule}</MenuItem>
-                  <MenuItem onClick={handleClose}>{content[language].history}</MenuItem>
                   <MenuItem onClick={handleClose}>{content[language].delete}</MenuItem>
                 </Menu>
                 </>

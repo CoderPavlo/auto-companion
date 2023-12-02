@@ -7,6 +7,8 @@ import uk from 'dayjs/locale/uk';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
+
 import {
   Button,
   Grid,
@@ -160,7 +162,32 @@ function getMonthDays(date) {
   return monthDays;
 }
 
+function getEvents(month, year) {
+  request(
+      "GET",
+      "/events",
+      {
+          month: month,
+          year: year,
+      }).then(
+          (response) => {
+              console.log(response.data);
+          }).catch(
+              (error) => {
+                  // if (error.response.status === 401) {
+                  //     setAuthHeader(null);
+                  // }
+                  console.log(error);
+              }
+          );
+}
+
 const CalendarPage = ({ theme, language }) => {
+
+  React.useEffect(() => {
+    getEvents(12, 2023);
+});
+
   const [initialDay, setInitialDay] = React.useState(dayjs());
   const [calendarValue, setCalendarValue] = React.useState(dayjs());
 
@@ -273,7 +300,10 @@ const CalendarPage = ({ theme, language }) => {
 
   const handleClickOpenDialog = (clear) => {
     if (clear) {
-      setInitialEvent({ date: calendarValue });
+      setEventDate(calendarValue);
+      setEventCar(null);
+      setEventType(null);
+      setEventDesk(null);
     }
     setOpenDialog(true);
   };
@@ -284,6 +314,12 @@ const CalendarPage = ({ theme, language }) => {
 
   let hasNonNullItem = false;
   const [initialEvent, setInitialEvent] = React.useState({ date: calendarValue });
+
+  const [eventType, setEventType] = React.useState();
+  const [eventCar, setEventCar] = React.useState();
+  const [eventDate, setEventDate] = React.useState();
+  const [eventDesk, setEventDesk] = React.useState();
+  const [isNew, setIsNew] = React.useState(true);
 
   return (
     <>
@@ -419,12 +455,13 @@ const CalendarPage = ({ theme, language }) => {
                                   color: theme.palette.text.primary, width: '100%', overflow: 'hidden', '& .MuiButtonBase-root': { fontSize: '0,5rem', },
                                 }}
                                   onClick={() => {
-                                    setInitialEvent({
-                                      type: item.type,
-                                      date: dayjs('02-12-2023'),
-                                      desk: item.desk,
-                                      car: 1,
-                                    });
+
+                                    setEventType(item.type);
+                                    setEventCar(1);
+                                    setEventDate(dayjs('02-12-2023'))
+                                    setEventDesk(item.desk);
+
+                                    setIsNew(false);
                                     handleClickOpenDialog(false);
                                   }}
                                 >
@@ -469,6 +506,11 @@ const CalendarPage = ({ theme, language }) => {
                               desk: item.desk,
                               car: 1,
                             });
+                            setEventType(item.type);
+                            setEventCar(1);
+                            setEventDate(dayjs('02-12-2023'))
+                            setEventDesk(item.desk);
+                            setIsNew(false);
                             handleClickOpenDialog(false);
                           }}>
                           {item.desk}
@@ -491,7 +533,7 @@ const CalendarPage = ({ theme, language }) => {
         </Grid>
       </Grid>
 
-      <EventDialog theme={theme} language={language} open={openDialog} handleClickClose={handleClickCloseDialog} initialValue={initialEvent} />
+      <EventDialog theme={theme} language={language} open={openDialog} isNew={isNew} handleClickClose={handleClickCloseDialog} date={eventDate} type={eventType} car={eventCar} desk={eventDesk} setDate={setEventDate} setType={setEventType} setCar={setEventCar} setDesk={setEventDesk} />
     </>
   )
 }

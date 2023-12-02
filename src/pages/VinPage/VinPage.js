@@ -1,5 +1,6 @@
 import React from 'react'
 import { json } from '../GaragePage/car.js'
+import { json2 } from '../GaragePage/car2.js'
 import car from './images/car.png'
 import InfoCard from '../components/InfoCard.js'
 import {
@@ -10,6 +11,8 @@ import {
   Checkbox,
 } from '@mui/material';
 import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
+
+import audi from "./../components/images/audi-a3.png"
 
 import {
   Public,
@@ -188,12 +191,46 @@ const properties = [
   ],
 
 ]
+
+function addCar(car) {
+  request(
+    "POST",
+    "/cars",
+    {
+      vin: car.vin,
+      email_or_id_user: car.email_or_id_user,
+      name: car.name,
+      json: car.json,
+      image: car.image
+    }).then(
+      (response) => {
+        console.log(response);
+      }).catch(
+        (error) => {
+          // if (error.response.status === 401) {
+          //     setAuthHeader(null);
+          // }
+          console.log(error);
+        }
+      );
+}
+
 const VinPage = ({ theme, language, IsInGarage }) => {
 
+  React.useEffect(() => {
+
+    addCar({
+      email_or_id_user: getUserId(),
+      vin: vin,
+      name: json.make.name + ' ' + json.model.name,
+      json: json,
+      image: car
+    });
+  });
   const { vin } = useParams();
   const [value, setValue] = React.useState(0);
   const [favorite, setFavorite] = React.useState(IsInGarage);
-  const [carJson, setCarJson] = React.useState(json);
+  const [carJson, setCarJson] = React.useState(json2);
 
   const changeFavorite = () => {
     if (favorite)
@@ -225,20 +262,20 @@ const VinPage = ({ theme, language, IsInGarage }) => {
     if (!vinRegex.test(vin)) {
       navigate('/');
     }
-    else if(carJson===null){
+    else if (carJson === null) {
       request(
         "GET",
         `/vin/${vin}`,
         {}).then(
-        (response) => {
+          (response) => {
             console.log(response);
             setCarJson(response.data);
-        }).catch(
-        (error) => {
-            console.log(error);
+          }).catch(
+            (error) => {
+              console.log(error);
 
-        }
-    );
+            }
+          );
     }
   });
   const navigate = useNavigate()
@@ -249,7 +286,7 @@ const VinPage = ({ theme, language, IsInGarage }) => {
         <>
           <Grid container spacing={5} sx={{ paddingLeft: { xs: 0, md: 20 }, paddingRight: { xs: 0, md: 20 }, }}>
             <Grid item xs={4} md={3}>
-              <img src={car} alt='car' style={{ width: '100%' }} />
+              <img src={audi} alt='car' style={{ width: '100%' }} />
             </Grid>
             <Grid item xs={4} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
               <Typography
