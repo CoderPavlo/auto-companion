@@ -208,8 +208,7 @@ const EventDialog = ({ theme, language, open, isNew, handleClickClose, type, car
             date: dayjs(),
         });
         deleteEvent(1);
-        changeEvent({
-            idEvent: 1,
+        changeEvent(1, {
             email_or_id_user: getUserId(),
             type: 'oil_change',
             desc: 'oil change',
