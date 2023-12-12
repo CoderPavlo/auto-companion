@@ -19,31 +19,39 @@ import { useLanguage } from "../../context/LanguageContext";
 import avatar from "../../images/avatar.png"
 
 import { getUserId, request, setAuthHeader } from '../../helpers/axios_helper';
-function getUser(id){
-  request(
-    "GET",
-    "/users",
-    {
-      id: id,
-    }).then(
-      (response) => {
+import axios from "axios";
+function getUser(id) {
+  request("GET", `/users/${id}`)
+      .then(response => {
         console.log(response.data);
-      }).catch(
-        (error) => {
-          // if (error.response.status === 401) {
-          //     setAuthHeader(null);
-          // }
-          console.log(error);
-        }
-      );
+      })
+      .catch(error => {
+        console.log(error);
+      });
 }
 
-function changeEmail(new_email){
+function updateUser(userData) {
   request(
-    "PUT",
-    "/users",
+      "PATCH",
+      `/users`,
+      {email: userData.email} // you need to add other fields and use this method to update other fields like firstname, lastname, etc.
+  ).then(
+      response => {
+        console.log("User updated successfully", response);
+      }
+  ).catch(
+      error => {
+        console.error("Error updating user", error);
+      }
+  );
+}
+
+function changePassword(newPassword){
+  request(
+    "PATCH",
+    '/users/new-password',
     {
-      new_email: new_email,
+      newPassword: newPassword
     }).then(
       (response) => {
         console.log(response);
@@ -57,70 +65,50 @@ function changeEmail(new_email){
       );
 }
 
+// function changeData(name, lastname){
+//   request(
+//     "PUT",
+//     "/users",
+//     {
+//       name: name,
+//       lastname: lastname,
+//     }).then(
+//       (response) => {
+//         console.log(response);
+//       }).catch(
+//         (error) => {
+//           // if (error.response.status === 401) {
+//           //     setAuthHeader(null);
+//           // }
+//           console.log(error);
+//         }
+//       );
+// }
 
-function changePassword(new_password){
-  request(
-    "PUT",
-    "/users",
-    {
-      new_password: new_password,
-    }).then(
-      (response) => {
-        console.log(response);
-      }).catch(
-        (error) => {
-          // if (error.response.status === 401) {
-          //     setAuthHeader(null);
-          // }
-          console.log(error);
-        }
-      );
+function changeImage(userId, imageFile) {
+  const formData = new FormData();
+  formData.append("image", imageFile);
+
+  axios.post(`/users/${userId}/uploadImage`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then(response => {
+    console.log(response);
+  }).catch(error => {
+    console.log(error);
+  });
 }
 
-function changeData(name, lastname){
-  request(
-    "PUT",
-    "/users",
-    {
-      name: name,
-      lastname: lastname,
-    }).then(
-      (response) => {
-        console.log(response);
-      }).catch(
-        (error) => {
-          // if (error.response.status === 401) {
-          //     setAuthHeader(null);
-          // }
-          console.log(error);
-        }
-      );
-}
-function changeImage(image){
-  request(
-    "PUT",
-    "/users",
-    {
-      image: image
-    }).then(
-      (response) => {
-        console.log(response);
-      }).catch(
-        (error) => {
-          // if (error.response.status === 401) {
-          //     setAuthHeader(null);
-          // }
-          console.log(error);
-        }
-      );
-}
+
+
 const UserProfile = ( ) => {
   React.useEffect(() => {
-    getUser(1);
-    changeEmail('sadav@gmail.com');
-    changePassword('pasdsdc');
-    changeData('savds', 'scvfdvd');
-    changeImage(avatar);
+    // getUser(1);
+    // updateUser({ email: 'newemail@example.com'});
+    // changePassword('test12404');
+    // changeData('savds', 'scvfdvd');
+    changeImage(7,avatar);
   });
   const { language } = useLanguage();
   const theme = useTheme(); // Use the useTheme hook to access the current theme

@@ -163,29 +163,19 @@ function getMonthDays(date) {
 }
 
 function getEvents(month, year) {
-  request(
-      "GET",
-      "/events",
-      {
-          month: month,
-          year: year,
-      }).then(
-          (response) => {
-              console.log(response.data);
-          }).catch(
-              (error) => {
-                  // if (error.response.status === 401) {
-                  //     setAuthHeader(null);
-                  // }
-                  console.log(error);
-              }
-          );
+  request("GET", `/events?month=${month}&year=${year}`)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
 }
 
 const CalendarPage = ({ theme, language }) => {
 
   React.useEffect(() => {
-    getEvents(12, 2023);
+    // getEvents(12, 2023);
 });
 
   const [initialDay, setInitialDay] = React.useState(dayjs());

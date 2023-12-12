@@ -34,13 +34,14 @@ export default function SignInPage({ theme, language, setLogged }) {
       }).then(
           (response) => {
               setErrorMessage('');
+              console.log(response);
               setAuthHeader(response.data.access_token);
               setLogged(true);
               navigate('/');
           }).catch(
               (error) => {
                 setErrorMessage(content[language].incorrectLogin);
-                  setAuthHeader(null);
+                  setAuthHeader("dima");
               }
           );
   };

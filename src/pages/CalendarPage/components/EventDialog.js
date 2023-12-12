@@ -124,10 +124,9 @@ function addEvent(event) {
       "POST",
       "/events",
       {
-        email_or_id_user: event.email_or_id_user,
         type: event.type,
-        desc: event.desc,
-        vin: event.vin,
+          description: event.description,
+          vinCode: event.vinCode,
         date: event.date
       }).then(
         (response) => {
@@ -141,7 +140,7 @@ function addEvent(event) {
           }
         );
   }
-
+// треьа зробити так як в HistoryPage.js і так всюди треба тобі треба передавати "id" пиши так "DELETE", `/history/${id}`) --->${id}`
   function deleteEvent(idEvent) {
     request(
       "DELETE",
@@ -166,10 +165,9 @@ function addEvent(event) {
       "/events",
       {
         id: idEvent,
-        email_or_id_user: event.email_or_id_user,
         type: event.type,
-        desc: event.desc,
-        vin: event.vin,
+          description: event.description,
+          vinCode: event.vinCode,
         date: event.date
       }).then(
         (response) => {
@@ -200,22 +198,20 @@ const EventDialog = ({ theme, language, open, isNew, handleClickClose, type, car
 
     React.useEffect(() => {
 
-        addEvent({
-            email_or_id_user: getUserId(),
-            type: 'oil_change',
-            desc: 'oil change',
-            vin: 'dsgadhh',
-            date: dayjs(),
-        });
-        deleteEvent(1);
-        changeEvent({
-            idEvent: 1,
-            email_or_id_user: getUserId(),
-            type: 'oil_change',
-            desc: 'oil change',
-            vin: 'dsgadhh',
-            date: dayjs(),
-        });
+        // addEvent({
+        //     type: 'oil_change',
+        //     description: 'oil change',
+        //     vinCode: 'dsgadhh',
+        //     date: dayjs(),
+        // });
+        // deleteEvent(1);
+        // changeEvent({
+        //     idEvent: 1,
+        //     type: 'oil_change',
+        //     description: 'oil change',
+        //     vinCode: 'dsgadhh',
+        //     date: dayjs(),
+        // });
       });
 
     const navigate = useNavigate();
