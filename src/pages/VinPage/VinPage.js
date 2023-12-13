@@ -197,14 +197,13 @@ function addCar(car) {
     "POST",
     "/cars",
     {
-      vin: car.vin,
-      email_or_id_user: car.email_or_id_user,
-      name: car.name,
-      json: car.json,
+      vinCode: car.vinCode,
+      carModel: car.carModel,
+      allInfoAboutCar: car.allInfoAboutCar,
       image: car.image
     }).then(
       (response) => {
-        console.log(response);
+        console.log(response.data.allInfoAboutCar + 'fdfdfdfdfdfd');
       }).catch(
         (error) => {
           // if (error.response.status === 401) {
@@ -216,14 +215,12 @@ function addCar(car) {
 }
 
 const VinPage = ({ theme, language, IsInGarage }) => {
-
   React.useEffect(() => {
-
+    const jsonString = JSON.stringify(json);
     addCar({
-      email_or_id_user: getUserId(),
-      vin: vin,
-      name: json.make.name + ' ' + json.model.name,
-      json: json,
+      vinCode: vin,
+      carModel: json.make.name + ' ' + json.model.name,
+      allInfoAboutCar: jsonString,
       image: car
     });
   });

@@ -123,13 +123,11 @@ const cars = [
   },
 ];
 
-function getCars(email_or_id_user) {
+function getCars() {
   request(
     "GET",
-    "/cars",
-    {
-      email_or_id_user: email_or_id_user,
-    }).then(
+    "/cars/get-garage",
+    {}).then(
       (response) => {
         console.log(response.data);
       }).catch(
@@ -164,10 +162,10 @@ const GaragePage = ({ theme, language }) => {
 
   React.useEffect(() => {
 
-    getCars('pavlo@gmail.com');
-    //or
-    getCars(getUserId());
-    deleteCar(1);
+    // getCars('pavlo@gmail.com');
+    // //or
+    getCars();
+    // deleteCar(1);
   });
 
   const [selectedCar, setSelectedCar] = React.useState(0);

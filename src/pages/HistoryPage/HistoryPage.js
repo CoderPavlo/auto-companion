@@ -106,10 +106,9 @@ function addNote(note) {
         "/history",
         {
             type: note.type,
-            desc: note.desc,
+            description: note.description,
             date: note.date,
-            data: note.data,
-            vin: note.vin,
+            vinCode: note.vinCode,
         }).then(
             (response) => {
                 console.log(response);
@@ -124,41 +123,24 @@ function addNote(note) {
 }
 
 function deleteNote(id) {
-    request(
-        "DELETE",
-        "/history",
-        {
-            id: id,
-        }).then(
-            (response) => {
-                console.log(response);
-            }).catch(
-                (error) => {
-                    // if (error.response.status === 401) {
-                    //     setAuthHeader(null);
-                    // }
-                    console.log(error);
-                }
-            );
+    request("DELETE", `/history/${id}`)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
-function getHistory(vin) {
-    request(
-        "GET",
-        "/history",
-        {
-            vin: vin,
-        }).then(
-            (response) => {
-                console.log(response.data);
-            }).catch(
-                (error) => {
-                    // if (error.response.status === 401) {
-                    //     setAuthHeader(null);
-                    // }
-                    console.log(error);
-                }
-            );
+
+function getHistory(vinCode) {
+    request("GET", `/history?vinCode=${vinCode}`)
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 const HistoryPage = ({ theme, language, car, vin, make, model }) => {
@@ -166,10 +148,9 @@ const HistoryPage = ({ theme, language, car, vin, make, model }) => {
     React.useEffect(() => {
         addNote({
             type: 'oil_change',
-            desc: 'oil change',
-            vin: 'ZPBUA1ZL9KLA00848',
+            description: 'oil change',
+            vinCode: 'ZPBUA1ZL9KLA00848',
             date: dayjs(),
-            data: data,
         });
 
         getHistory('ZPBUA1ZL9KLA00848');
